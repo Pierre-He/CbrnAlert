@@ -94,9 +94,7 @@ openssl rsa -in config/private.pem -out config/public.pem -outform PEM -pubout
 npm install @angular/cli
 ```
 
-	a) you may have a bunch of errors and using --force will create vulnerabilities. You can see them with "npm audit".
-	
-	b) You can force or adding overrides in package.json.
+You may have a bunch of errors and that you can see with "npm audit". You can --force or adding overrides in package.json.
  
  ```
 "overrides": 
