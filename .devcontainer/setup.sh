@@ -1,6 +1,7 @@
 #!/bin/bash
 
 cd frontend
+dos2unix setup.sh 
 npm install @angular/cli
 npm install
 npm run generate:all
