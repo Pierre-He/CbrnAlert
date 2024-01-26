@@ -33,7 +33,7 @@ npm run start
 
 You can now connect to http://localhost:4200 and login with login `test` and password `test`.
 
-## Alternative : Full-Reinstall 
+## Alternative : Manual Reinstall (no setup.sh)
 Usually, the quickstart setup is working. Otherwise follow these manual steps below : 
 
 ### Setup 
