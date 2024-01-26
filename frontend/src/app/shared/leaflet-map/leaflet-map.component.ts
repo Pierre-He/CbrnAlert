@@ -121,25 +121,80 @@ export class LeafletMapComponent implements OnInit {
             this.store.dispatch(new MapAction.ChangeAreaSelection(this.mapService.rectangleToArea(e.layer as Rectangle)));
           })
         }
+        this.createPopup(newLayer,'Rectangle')
+
       } else if (e.shape == 'Marker') {
         // Change the current marker if exists, and create it if not
         const newLayer = e.layer as Marker
         const previousLayer = this.mapService.drawnMarker;
+
+
+        // Compromise : Allow the good functionning eraser at the expense of Location gather...
+        //newLayer.addTo(this.mapService.leafletMap);
+        
         if (previousLayer) {
           // this.mapService.copyMarkerPosition(newLayer);
+          alert("previousLayer TRUE")
           this.store.dispatch(new MapAction.ChangeMarker(this.mapService.markerToPoint(newLayer)));
           this.mapService.leafletMap.removeLayer(newLayer)
         } else {
           this.mapService.drawnMarker = newLayer
+          alert("NO-OLD ADD first line appeared")
           this.store.dispatch(new MapAction.ChangeMarker(this.mapService.markerToPoint(e.layer as Marker)));
+          alert(" NO-OLD ADD second line appeared")
           this.mapService.drawnMarker.on('pm:edit', (e: any) => {
             this.store.dispatch(new MapAction.ChangeMarker(this.mapService.markerToPoint(e.layer as Marker)));
+            alert(" MOVING third line appeared")
           })
         }
-
+      
+        //popup eraser
+        this.createPopup(newLayer,'Marker')
 
       }
     })
+    
+    //global eraser
+    map.on('pm:remove',(e)=> {
+      const removedLayer = e.layer;
+
+      //check if rectangle or not
+      if (removedLayer instanceof Marker) {
+        if (removedLayer === this.mapService.drawnMarker) {
+          this.mapService.drawnMarker = undefined; 
+        }
+      } else if (removedLayer instanceof Rectangle) {
+
+        if (removedLayer === this.mapService.drawnRectangle) {
+          this.mapService.drawnRectangle = undefined; 
+        }
+      this.mapService.leafletMap.removeLayer(removedLayer);
+      }
+    })
+  
+  }
+  private createPopup(newLayer: Layer, layerType:'Marker' | 'Rectangle'){
+         // Create a button for the popup
+        const removeButton = document.createElement('button');
+        removeButton.innerText = 'Click to Remove';
+        removeButton.addEventListener('click', () => {
+          
+          // Handle remove button click based on layer type
+        if (layerType === 'Marker' && newLayer === this.mapService.drawnMarker) {
+          this.mapService.drawnMarker = undefined; // Clear the reference
+        } else if (layerType === 'Rectangle' && newLayer === this.mapService.drawnRectangle) {
+          this.mapService.drawnRectangle = undefined; 
+        }
+          this.mapService.leafletMap.removeLayer(newLayer);
+        });
+
+        // Create a popup with the button
+        const popupContent = document.createElement('div');
+        popupContent.appendChild(removeButton);
+
+        // Bind the popup to the marker
+        newLayer.bindPopup(popupContent).openPopup();
   }
 
 }
+
