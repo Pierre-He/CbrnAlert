@@ -70,21 +70,21 @@ Retry to instantiate julia with the "]", the FlexExtract error should be gone.
 4/ Run "./bin/repl" again, the Genie S framework will appears.
 
 5/ Write these lines in julia>, it will generate the users tables in db.sqlite
-    ```
-	using SearchLight
-	using SearchLightSQLite
-	SearchLight.Migration.init()
-	SearchLight.Migration.status()
-	SearchLight.Migration.allup()
-     ```
+```
+using SearchLight
+using SearchLightSQLite
+SearchLight.Migration.init()
+SearchLight.Migration.status()
+SearchLight.Migration.allup()
+```
 NB: (DO NOT trust setup.jl to do it for you!)
 
 
 6/ exit julia, and write these line to generate the encoding JSON Web tokens
-    ```
-	openssl genrsa -out config/private.pem 2048
-	openssl rsa -in config/private.pem -out config/public.pem -outform PEM -pubout
-    ```
+```
+openssl genrsa -out config/private.pem 2048
+openssl rsa -in config/private.pem -out config/public.pem -outform PEM -pubout
+```
 
 
 ## Archive : Common steps for both development and production
