@@ -89,13 +89,15 @@ openssl rsa -in config/private.pem -out config/public.pem -outform PEM -pubout
 
 7/ Open a new terminal, go in frontend folder
 
-8/ install the angular commande line interface:
+8/ install the angular command line interface:
 ```
 npm install @angular/cli
 ```
+
 	a) you may have a bunch of errors and using --force will create vulnerabilities. You can see them with "npm audit".
 	
 	b) You can force or adding overrides in package.json.
+ 
  ```
 "overrides": 
 {
