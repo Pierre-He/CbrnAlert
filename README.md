@@ -54,7 +54,7 @@ dos2unix ./bin/repl
 ```
 julia +1.7 --project
 ```
-After julia is open, enter the Julia Package Manager with "]" and write instantiate :
+After Julia is open, enter the Julia Package Manager with "]" and write instantiate :
 
 ```julia
 (CbrnAlertApp) > instantiate
@@ -80,7 +80,7 @@ SearchLight.Migration.allup()
 NB: (DO NOT trust setup.jl to do it for you!)
 
 
-6/ exit julia, and write these line to generate the encoding JSON Web tokens
+6/ Exit Julia, and write these line to generate the encoding JSON Web tokens
 ```
 openssl genrsa -out config/private.pem 2048
 openssl rsa -in config/private.pem -out config/public.pem -outform PEM -pubout
