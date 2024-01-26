@@ -36,17 +36,18 @@ You can now connect to http://localhost:4200 and login with login `test` and pas
 ## Alternative : Full-Reinstall 
 Usually, the quickstart setup is working. Otherwise follow these manual steps below : 
 
-## Setup 
+### Setup 
 0/ Write API keys on a file ".ecmwfapirc" and save it as no extension file in C:/Users/YOURNAME, check if there is NO folders with the same name !
 
 1/ In VSCode, a popup saying "Reopen in Dev Container" will appears. Click it.
+
 2/ Open a terminal, go in backend folder , and try to run "./bin/repl". If it is not recognized, you need dos2unix to convert the file before running it again.
     
-    ```bash
-        yum install dos2unix
-        dos2unix ./bin/repl
-        ./bin/repl
-    ```
+```bash
+yum install dos2unix
+dos2unix ./bin/repl
+./bin/repl
+```
 
 3/ After running the repl, you will probably see a bunch of errors, this means julia is not yet instantiated.
     
