@@ -94,7 +94,7 @@ openssl rsa -in config/private.pem -out config/public.pem -outform PEM -pubout
 npm install @angular/cli
 ```
 
-You may have a bunch of errors and that you can see with "npm audit". You can --force or adding overrides in package.json.
+You may have a bunch of errors and that you can see with "npm audit". You can --force or adding overrides on package.json located in the frontend folder.
  
  ```
 "overrides": 
