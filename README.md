@@ -56,11 +56,11 @@ julia +1.7 --project
 ```
 After julia is open, enter the Julia Package Manager with "]" and write instantiate :
 
-```
+```julia
 (CbrnAlertApp) > instantiate
 ```
 You will probably get FlexExtract errors, go back to Julia REPL and write : 
-```
+```julia
 ENV["PYTHON"] = ""
 using Pkg
 Pkg.build("PyCall")
@@ -70,7 +70,7 @@ Retry to instantiate julia with the "]", the FlexExtract error should be gone.
 4/ Run "./bin/repl" again, the Genie S framework will appears.
 
 5/ Write these lines in julia>, it will generate the users tables in db.sqlite
-```
+```julia
 using SearchLight
 using SearchLightSQLite
 SearchLight.Migration.init()
@@ -85,6 +85,81 @@ NB: (DO NOT trust setup.jl to do it for you!)
 openssl genrsa -out config/private.pem 2048
 openssl rsa -in config/private.pem -out config/public.pem -outform PEM -pubout
 ```
+
+
+7/ Open a new terminal, go in frontend folder
+
+8/ install the angular commande line interface:
+```
+npm install @angular/cli
+```
+	a) you may have a bunch of errors and using --force will create vulnerabilities. You can see them with "npm audit".
+	
+	b) You can force or adding overrides in package.json.
+ ```
+  		"overrides": 
+		{
+      			"glob-parent":"6.0.2",
+      			"@angular/core":"^16.1.2",
+      			"axios":"1.6.5",
+      			"tough-cookie":"4.1.3",
+      			"xml2js":"0.6.2"
+  		}
+```
+	c) remember to use "npm update" if you change the overrides later
+	it will get rid of critical and leave with "request *" vulnerability that 3 others modules depends on. I have yet to find a solution for this.
+
+
+9/ install javascript libraries, similar vulnerabilities will appears but you can ignore them for now
+
+	npm install
+
+10/ generate the OpenAPI
+	npm run generate:all
+
+
+## Starting the App
+
+
+1/ You will need an user to use the app, to create one : 
+	cd CbrnAlert/backend
+	./bin/repl
+
+2/ in julia>, write this : 
+	using CbrnAlertApp
+	using CbrnAlertApp.Users
+	Users.add("USEREMAIL", "PASSWORD", username = "USERNAME")
+	
+	for the sake of simplicity, you can go like this for the last line
+		> Users.add("test", "test", username = "test")
+
+	this will add an user to the sql table, you can see it in backend/db/db.sqlite
+
+3/ you can launch the backend server, that will listen on 8000.
+	julia > up()
+
+	
+	usually you will get something like this : 
+	┌ Info: 2024-01-18 08:24:33 
+	└ Web Server starting at http://127.0.0.1:8000 
+	[ Info: 2024-01-18 08:24:34 Listening on: 127.0.0.1:8000, thread id: 1
+	Genie.Server.ServersCollection(Task (runnable) @0x00007fe561b215a0, nothing)
+
+
+
+4/ go to the front end server : 
+	cd CbrnAlert/frontend
+	npm run start
+
+	This will launch the server on 4200. This may take a long time at first
+
+5/ Open the Server 4200 on a browser
+
+6/ you can now authenticate with the users you added. You can also check the users with sqlite tools, extensions or dbbrowser in the backend/db/db.sqlite file
+
+7/ Try to monitor backend terminal activity when interacting with the app.
+
+
 
 
 ## Archive : Common steps for both development and production
