@@ -97,59 +97,72 @@ npm install @angular/cli
 	
 	b) You can force or adding overrides in package.json.
  ```
-  		"overrides": 
-		{
-      			"glob-parent":"6.0.2",
-      			"@angular/core":"^16.1.2",
-      			"axios":"1.6.5",
-      			"tough-cookie":"4.1.3",
-      			"xml2js":"0.6.2"
-  		}
+"overrides": 
+{
+"glob-parent":"6.0.2",
+ "@angular/core":"^16.1.2",
+ "axios":"1.6.5",
+ "tough-cookie":"4.1.3",
+ "xml2js":"0.6.2"
+ }
 ```
+
 	c) remember to use "npm update" if you change the overrides later
 	it will get rid of critical and leave with "request *" vulnerability that 3 others modules depends on. I have yet to find a solution for this.
 
 
 9/ install javascript libraries, similar vulnerabilities will appears but you can ignore them for now
 
-	npm install
-
+```
+npm install
+```
 10/ generate the OpenAPI
-	npm run generate:all
 
+```
+npm run generate:all
+```
 
-## Starting the App
+### Starting the App
 
 
 1/ You will need an user to use the app, to create one : 
+```
 	cd CbrnAlert/backend
 	./bin/repl
+```
 
 2/ in julia>, write this : 
+
+```julia
 	using CbrnAlertApp
 	using CbrnAlertApp.Users
 	Users.add("USEREMAIL", "PASSWORD", username = "USERNAME")
-	
-	for the sake of simplicity, you can go like this for the last line
-		> Users.add("test", "test", username = "test")
-
-	this will add an user to the sql table, you can see it in backend/db/db.sqlite
+```
+For the sake of simplicity, you can go like this for the last line :
+```julia
+> Users.add("test", "test", username = "test")
+```
+this will add an user to the SQL table, you can see it in backend/db/db.sqlite
 
 3/ you can launch the backend server, that will listen on 8000.
+```julia
 	julia > up()
-
+```
 	
-	usually you will get something like this : 
+You should get something like this : 
+```julia
 	┌ Info: 2024-01-18 08:24:33 
 	└ Web Server starting at http://127.0.0.1:8000 
 	[ Info: 2024-01-18 08:24:34 Listening on: 127.0.0.1:8000, thread id: 1
 	Genie.Server.ServersCollection(Task (runnable) @0x00007fe561b215a0, nothing)
-
+```
 
 
 4/ go to the front end server : 
+```
 	cd CbrnAlert/frontend
 	npm run start
+```
 
 	This will launch the server on 4200. This may take a long time at first
 
