@@ -40,13 +40,26 @@ Usually, the quickstart setup is working. Otherwise follow these manual steps be
 0/ Write API keys on a file ".ecmwfapirc" and save it as no extension file in C:/Users/YOURNAME, check if there is NO folders with the same name !
 
 1/ In VSCode, a popup saying "Reopen in Dev Container" will appears. Click it.
+2/ Open a terminal, go in backend folder , and try to run "./bin/repl". If it is not recognized, you need dos2unix to convert the file before running it again.
+    
+    ```bash
+        yum install dos2unix
+        dos2unix ./bin/repl
+        ./bin/repl
+    ```
+
+3/ After running the repl, you will probably see a bunch of errors, this means julia is not yet instantiated.
+    
+
+    
 
 
 
 
 
+## Archive : Common steps for both development and production
+These are tcarion's instructions for an older version of the project. You can ignore these for now.
 
-## Common steps for both development and production
 
 ### Credentials for the ECMWF API
 The application needs to retrieve weather forecasts from ECMWF. That means you'll need to have access to licensed datasets from ECMWF. To setup your credentials, you need to go on https://api.ecmwf.int/v1/key to get your API key, and write those lines on a file called `.ecmwfapirc` in your `$HOME` folder:
