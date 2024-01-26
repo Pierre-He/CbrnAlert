@@ -106,9 +106,8 @@ You may have a bunch of errors and that you can see with "npm audit". You can --
  "xml2js":"0.6.2"
  }
 ```
-
-	c) remember to use "npm update" if you change the overrides later
-	it will get rid of critical and leave with "request *" vulnerability that 3 others modules depends on. I have yet to find a solution for this.
+remember to use "npm update" if you change the overrides later.
+This will get rid of critical and leave with "request *" vulnerability that 3 others modules depends on. I have yet to find a solution for this.
 
 
 9/ install javascript libraries, similar vulnerabilities will appears but you can ignore them for now
