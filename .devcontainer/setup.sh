@@ -1,13 +1,13 @@
 #!/bin/bash
+yum install -y dos2unix
+dos2unix setup.sh 
 
 cd frontend
-dos2unix setup.sh 
 npm install @angular/cli
 npm install
 npm run generate:all
 
 cd ../backend
-yum install dos2unix
 dos2unix ./bin/repl
 
 export PYTHON=""
