@@ -33,6 +33,19 @@ npm run start
 
 You can now connect to http://localhost:4200 and login with login `test` and password `test`.
 
+## Alternative : Full-Reinstall 
+Usually, the quickstart setup is working. Otherwise follow these manual steps below : 
+
+## Setup 
+0/ Write API keys on a file ".ecmwfapirc" and save it as no extension file in C:/Users/YOURNAME, check if there is NO folders with the same name !
+
+1/ In VSCode, a popup saying "Reopen in Dev Container" will appears. Click it.
+
+
+
+
+
+
 ## Common steps for both development and production
 
 ### Credentials for the ECMWF API
