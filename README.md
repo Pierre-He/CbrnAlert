@@ -43,19 +43,48 @@ Usually, the quickstart setup is working. Otherwise follow these manual steps be
 
 2/ Open a terminal, go in backend folder , and try to run "./bin/repl". If it is not recognized, you need dos2unix to convert the file before running it again.
     
-```bash
+```
 yum install dos2unix
 dos2unix ./bin/repl
 ./bin/repl
 ```
 
-3/ After running the repl, you will probably see a bunch of errors, this means julia is not yet instantiated.
-    
+3/ After running the repl, you will probably see a bunch of errors, this means Julia is not yet instantiated. You need to generate the files.
 
-    
+```
+julia +1.7 --project
+```
+After julia is open, enter the Julia Package Manager with "]" and write instantiate :
+
+```
+(CbrnAlertApp) > instantiate
+```
+You will probably get FlexExtract errors, go back to Julia REPL and write : 
+```
+ENV["PYTHON"] = ""
+using Pkg
+Pkg.build("PyCall")
+```
+Retry to instantiate julia with the "]", the FlexExtract error should be gone.
+
+4/ Run "./bin/repl" again, the Genie S framework will appears.
+
+5/ Write these lines in julia>, it will generate the users tables in db.sqlite
+    ```
+	using SearchLight
+	using SearchLightSQLite
+	SearchLight.Migration.init()
+	SearchLight.Migration.status()
+	SearchLight.Migration.allup()
+     ```
+NB: (DO NOT trust setup.jl to do it for you!)
 
 
-
+6/ exit julia, and write these line to generate the encoding JSON Web tokens
+    ```
+	openssl genrsa -out config/private.pem 2048
+	openssl rsa -in config/private.pem -out config/public.pem -outform PEM -pubout
+    ```
 
 
 ## Archive : Common steps for both development and production
