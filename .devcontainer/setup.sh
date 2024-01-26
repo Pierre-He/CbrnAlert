@@ -6,7 +6,7 @@ npm install
 npm run generate:all
 
 cd ../backend
-yum install -y dos2unix
+yum install dos2unix
 dos2unix ./bin/repl
 
 export PYTHON=""
