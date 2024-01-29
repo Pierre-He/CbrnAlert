@@ -129,9 +129,6 @@ export class LeafletMapComponent implements OnInit {
         const previousLayer = this.mapService.drawnMarker;
 
 
-        // Compromise : Allow the good functionning eraser at the expense of Location gather...
-        //newLayer.addTo(this.mapService.leafletMap);
-        
         if (previousLayer) {
           // this.mapService.copyMarkerPosition(newLayer);
           alert("previousLayer TRUE")
