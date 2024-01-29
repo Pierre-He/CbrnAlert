@@ -1,22 +1,23 @@
 <mat-toolbar class="topbar">
     <div class="topbar-title">
         <button mat-icon-button (click)="toggleNav()">
-            <mat-icon>menu</mat-icon>
+            <mat-icon>space_dashboard</mat-icon>
         </button>
         <h1 class="app-name">CbrnAlert</h1>
+        
+    </div>
+    <div class="topbar-icons">
         <div
         class="p-1 ml-5 my-2 bg-green-400 rounded text-sm justify-center"
         *ngIf="currentUser$ | async as currentUser"
         >
           User: {{ currentUser.username }}
         </div>
-    </div>
-    <div class="topbar-icons">
         <button style="margin-right: 2em" mat-raised-button color="warn" (click)="onLogout()">
             Log-out
         </button>
         <button mat-icon-button (click)="onPlotList()">
-            <mat-icon>view_list</mat-icon>
+            <mat-icon>edit_note</mat-icon>
         </button>
         <button mat-icon-button (click)="onNotif()">
             <mat-icon>notifications</mat-icon>

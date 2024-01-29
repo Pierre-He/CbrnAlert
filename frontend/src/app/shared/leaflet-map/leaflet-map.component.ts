@@ -141,7 +141,7 @@ export class LeafletMapComponent implements OnInit {
           this.mapService.drawnMarker = newLayer
           alert("NO-OLD ADD first line appeared")
           this.store.dispatch(new MapAction.ChangeMarker(this.mapService.markerToPoint(e.layer as Marker)));
-          alert(" NO-OLD ADD second line appeared")
+          //alert(" NO-OLD ADD second line appeared")
           this.mapService.drawnMarker.on('pm:edit', (e: any) => {
             this.store.dispatch(new MapAction.ChangeMarker(this.mapService.markerToPoint(e.layer as Marker)));
             alert(" MOVING third line appeared")
