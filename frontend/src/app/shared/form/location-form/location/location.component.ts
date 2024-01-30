@@ -59,6 +59,11 @@ export class LocationComponent implements ControlValueAccessor, OnDestroy, Valid
         // @Self() @Optional() private control: NgControl
     ) {
       // this.control.valueAccessor = this;
+
+       // auto fill form
+    this.markerSub = this.marker$.subscribe((marker) => {
+        this.setMarker(marker);
+      });
     }
 
     // public get invalid(): boolean {
