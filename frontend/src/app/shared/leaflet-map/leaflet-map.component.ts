@@ -73,7 +73,8 @@ export class LeafletMapComponent implements OnInit {
   constructor(
     public mapService: MapService,
     public mapPlotsService: MapPlotsService,
-    public store: Store
+    public store: Store,
+   
   ) {
   }
 
@@ -129,24 +130,28 @@ export class LeafletMapComponent implements OnInit {
         const previousLayer = this.mapService.drawnMarker;
 
 
-        // Compromise : Allow the good functionning eraser at the expense of Location gather...
-        //newLayer.addTo(this.mapService.leafletMap);
-        
         if (previousLayer) {
           // this.mapService.copyMarkerPosition(newLayer);
-          alert("previousLayer TRUE")
+          //alert("previousLayer TRUE")
           this.store.dispatch(new MapAction.ChangeMarker(this.mapService.markerToPoint(newLayer)));
           this.mapService.leafletMap.removeLayer(newLayer)
         } else {
           this.mapService.drawnMarker = newLayer
-          alert("NO-OLD ADD first line appeared")
+          //alert("NO-OLD ADD first line appeared")
           this.store.dispatch(new MapAction.ChangeMarker(this.mapService.markerToPoint(e.layer as Marker)));
           //alert(" NO-OLD ADD second line appeared")
           this.mapService.drawnMarker.on('pm:edit', (e: any) => {
             this.store.dispatch(new MapAction.ChangeMarker(this.mapService.markerToPoint(e.layer as Marker)));
-            alert(" MOVING third line appeared")
+            //alert(" MOVING third line appeared")
           })
         }
+
+        
+        // Get the lat lng test
+        //alert(newLayer.getLatLng().lat.toFixed(2))
+        //alert(newLayer.getLatLng().lng.toFixed(2))
+        //this.mapService.copyMarkerPosition(newLayer)
+        
       
         //popup eraser
         this.createPopup(newLayer,'Marker')
