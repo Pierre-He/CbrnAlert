@@ -32,11 +32,19 @@ export class AreaInputComponent implements ControlValueAccessor, OnDestroy {
 
   onTouched = () => {};
 
+  areaSub:Subscription;
   onChangeSubs: Subscription[] = [];
 
   @Select(MapState.userArea) userArea$: Observable<MapArea>;
 
-  constructor(public store: Store) {}
+  constructor(
+    public store: Store,
+    ) {
+
+      this.areaSub = this.userArea$.subscribe((area) => {
+        this.setArea(area);
+      });
+    }
 
   form = new FormGroup<ControlsOf<MapArea>>({
     left: new FormControl<number>(undefined, [Validators.required]),
@@ -52,6 +60,7 @@ export class AreaInputComponent implements ControlValueAccessor, OnDestroy {
   }
 
   setFromRectangle() {
+    alert("SET FROM RECT")
     this.userArea$.pipe(
       // skip(1),
       first(),

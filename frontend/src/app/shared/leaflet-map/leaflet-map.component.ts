@@ -73,7 +73,8 @@ export class LeafletMapComponent implements OnInit {
   constructor(
     public mapService: MapService,
     public mapPlotsService: MapPlotsService,
-    public store: Store
+    public store: Store,
+   
   ) {
   }
 
