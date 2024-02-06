@@ -14,3 +14,8 @@
 .clickable {
     cursor: pointer;
 }
+
+.scrollable-list {
+    max-height: 300px; /* Set your desired max height */
+    overflow-y: auto;
+}

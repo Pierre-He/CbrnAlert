@@ -4,17 +4,19 @@
             {{ title }}
         </mat-panel-title>
     </mat-expansion-panel-header>
-    <mat-action-list dense>
-        <mat-list-item mat-ripple class="list-item" *ngFor="let plot of plots" checkboxPosition='before' [ngClass]="{'active' : plot.isActive}">
-            <div class="content">
-                <mat-checkbox [checked]="plot.visible" (change)="onToggleVisibility(plot)" click-stop-propagation></mat-checkbox>
-                <span class="clickable" (click)="onItemClick(plot.id)">
-                    {{ plot.name }}
-                </span>
-                <button mat-icon-button (click)="onDelete(plot.id)">
-                    <mat-icon>cancel</mat-icon>
-                </button>
-            </div>
-        </mat-list-item>
-    </mat-action-list>
+    <div class="scrollable-list">
+        <mat-action-list dense>
+            <mat-list-item mat-ripple class="list-item" *ngFor="let plot of plots" checkboxPosition='before' [ngClass]="{'active' : plot.isActive}">
+                <div class="content">
+                    <mat-checkbox [checked]="plot.visible" (change)="onToggleVisibility(plot)" click-stop-propagation></mat-checkbox>
+                    <span class="clickable" (click)="onItemClick(plot.id)">
+                        {{ plot.name }}
+                    </span>
+                    <button mat-icon-button (click)="onDelete(plot.id)">
+                        <mat-icon>cancel</mat-icon>
+                    </button>
+                </div>
+            </mat-list-item>
+        </mat-action-list>
+    </div>
 </mat-expansion-panel>
