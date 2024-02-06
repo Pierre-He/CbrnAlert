@@ -18,5 +18,8 @@
                 </div>
             </mat-list-item>
         </mat-action-list>
+        <div *ngIf="!plots || plots.length === 0" class="no-plots-message">
+            No plots added
+        </div>
     </div>
 </mat-expansion-panel>
