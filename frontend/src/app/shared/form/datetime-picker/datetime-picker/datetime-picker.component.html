@@ -13,15 +13,35 @@ appearance="outline">
 </mat-form-field> -->
 <mat-form-field
 class="form-control"
-appearance="outline">
+appearance="fill">
 <mat-label> {{ label }} </mat-label>
+
+
+
   <input class="datetime-picker" matInput [ngxMatDatetimePicker]="picker" placeholder="Choose a date" [formControl]="control"
      [min]="min ? min: ''" [max]="max ? max : ''">
-  <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
-  <ngx-mat-datetime-picker #picker [showSpinners]="true" [showSeconds]="true"
-     [stepHour]="steps.hour" [stepMinute]="steps.minute" [stepSecond]="steps.second"
-     [touchUi]="true" [color]="'primary'" [enableMeridian]="false"
+  <mat-datepicker-toggle matSuffix [for]="$any(picker)" [style.color]="'#1976d2'"></mat-datepicker-toggle>
+  <ngx-mat-datetime-picker #picker [showSpinners]="true" 
+   [showSeconds]="true"
+     [stepHour]="steps.hour" 
+     [stepMinute]="steps.minute" 
+     [stepSecond]="steps.second"
+     [touchUi]="true" 
+     [color]="'primary'" 
+     [enableMeridian]="false"
      [disableMinute]="steps.minute == 0 ? true : false"
-     [hideTime]="false">
+     [hideTime]="false"
+     class="mat-calendar"
+      >  
+   
+   
+
+   <!--
+
   </ngx-mat-datetime-picker>
+  <input class="datetime-picker" matInput [matDatepicker]="myDatepicker" placeholder="Choose a date" [formControl]="control"
+     [min]="min ? min: ''" [max]="max ? max : ''">
+  <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+  <mat-datepicker #myDatepicker></mat-datepicker>
+   -->
 </mat-form-field>
