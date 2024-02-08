@@ -1,8 +1,13 @@
-.mat-calendar {
-    background-color: #ffffff; /* Change to your desired background color */
-  }
-  
-  /* Customize the font color of the calendar */
-  .mat-calendar-content {
-    color: #000000; /* Change to your desired font color */
-  }
+
+@import '@angular/material/theming';
+//@use '@angular/material' as mat;
+
+@include mat-core();
+
+$datetime-picker-primary: mat-palette($mat-indigo);
+$datetime-picker-accent:  mat-palette($mat-pink, A200, A100, A400);
+$datetime-picker-warn:    mat-palette($mat-red);
+
+$datetime-picker-theme: mat-light-theme($datetime-picker-primary, $datetime-picker-accent, $datetime-picker-warn);
+
+@include angular-material-theme($datetime-picker-theme);

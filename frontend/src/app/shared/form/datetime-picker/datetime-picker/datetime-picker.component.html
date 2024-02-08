@@ -26,19 +26,15 @@ appearance="fill">
      [stepHour]="steps.hour" 
      [stepMinute]="steps.minute" 
      [stepSecond]="steps.second"
-     [touchUi]="true" 
+     [touchUi]="false" 
      [color]="'primary'" 
      [enableMeridian]="false"
      [disableMinute]="steps.minute == 0 ? true : false"
      [hideTime]="false"
      class="mat-calendar"
       >  
-   
-
-
-
-
   </ngx-mat-datetime-picker>
+
   <!--
   <input class="datetime-picker" matInput [matDatepicker]="myDatepicker" placeholder="Choose a date" [formControl]="control"
      [min]="min ? min: ''" [max]="max ? max : ''">
