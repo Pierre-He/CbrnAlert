@@ -9,11 +9,11 @@
   <div class="flex flex-wrap">
     <div class="flex-col">
       <label for="speed" class="text-xs">Speed:</label>
-      <input appFormInput type="number" formControlName="speed" id="speed" class="w-20 mx-3">
+      <input appFormInput type="number" formControlName="speed" id="speed" class="w-20 mx-3" min="0">
     </div>
     <div class="flex-col">
       <label for="azimuth" class="text-xs">Direction:</label>
-      <input appFormInput type="number" formControlName="azimuth" id="azimuth" class="w-20 mx-3">
+      <input appFormInput type="number" formControlName="azimuth" id="azimuth" class="w-20 mx-3" min="0">
     </div>
   </div>
 </form>
