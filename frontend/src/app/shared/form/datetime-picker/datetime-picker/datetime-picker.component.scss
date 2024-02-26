@@ -1,7 +1,10 @@
+/*
+
+@use '@angular/material' as mat;
 
 @import '@angular/material/theming';
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
-//@use '@angular/material' as mat;
+
 
 @include mat-core();
 
@@ -12,3 +15,40 @@ $datetime-picker-warn:    mat-palette($mat-red);
 $datetime-picker-theme: mat-light-theme($datetime-picker-primary, $datetime-picker-accent, $datetime-picker-warn);
 
 @include angular-material-theme($datetime-picker-theme);
+
+.ngx-mat-datetime-picker {
+    background-color: mat.get-color-from-palette($my-primary, 500);
+    color: mat.get-color-from-palette($my-accent, A200);
+  }
+
+  */
+
+  // Define your blue colors
+$blue-primary: #1976d2; // A nice shade of blue
+$blue-accent: #2196f3; // A lighter shade for accents
+$blue-dark: #0d47a1; // Darker shade for contrasts
+
+// Apply the colors to the calendar and its elements
+.mat-calendar-header {
+  background-color: $blue-primary;
+  color: white;
+}
+
+.mat-calendar-period-button {
+  color: white;
+}
+
+.mat-calendar-next-button, .mat-calendar-previous-button {
+  color: $blue-accent;
+}
+
+.mat-calendar-body-selected {
+  background-color: $blue-accent;
+  color: white;
+}
+
+.mat-calendar-body-today {
+  border-color: $blue-dark;
+}
+
+// You may need to adjust selectors and properties based on the specific elements and styles you wish to theme.
