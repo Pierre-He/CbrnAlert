@@ -23,15 +23,35 @@ $datetime-picker-theme: mat-light-theme($datetime-picker-primary, $datetime-pick
 
   */
 
-  // Define your blue colors
-$blue-primary: #1976d2; // A nice shade of blue
-$blue-accent: #2196f3; // A lighter shade for accents
-$blue-dark: #0d47a1; // Darker shade for contrasts
+$blue-primary: #4e73df; // color for calendar bar
+$blue-accent: #2196f3; // color for selected day
+$blue-dark: #0d47a1; //color for current day
+
+
+// Targeting the calendar body for background color application
+.mat-calendar-content {
+    background-color: #E3F2FD; // Light blue for a subtle background
+  }
+
+  ngx-mat-datetime-picker {
+    display: flex;
+    flex-direction: column; 
+  }
+  
+  // Optionally, ensure the text within the calendar body is readable
+  .mat-calendar-body-cell-content {
+    color: #000; // Dark text for contrast against the light background
+  }
+
 
 // Apply the colors to the calendar and its elements
 .mat-calendar-header {
   background-color: $blue-primary;
   color: white;
+}
+
+.mdc-button__label{
+    color: white;
 }
 
 .mat-calendar-period-button {
@@ -51,4 +71,37 @@ $blue-dark: #0d47a1; // Darker shade for contrasts
   border-color: $blue-dark;
 }
 
-// You may need to adjust selectors and properties based on the specific elements and styles you wish to theme.
+
+
+
+//timepicker
+/* Target the container of the time picker to apply background color */
+.time-container {
+    background-color: #e3f2fd; /* Adjust the color to match the calendar body or your theme */
+}
+
+/* Optionally, style the form fields within the time picker for consistency */
+ngx-mat-timepicker .mat-mdc-form-field {
+    background-color: #e3f2fd; /* Lighter or matching background for input fields */
+    color: #000; /* Ensure readable text color */
+
+    /* Target the input fields specifically for text color */
+    .mat-mdc-input-element {
+        color: #000; /* Text color */
+    }
+
+    /* Style the icons within the time picker */
+    mat-icon {
+        color: #000; /* Icon color for better visibility */
+    }
+}
+
+/* Adjust the button colors for increment/decrement within the timepicker */
+ngx-mat-timepicker .mdc-icon-button {
+    color: #1976d2; /* Color for the buttons, adjust as needed */
+}
+
+/* Ensure disabled buttons are still visible but clearly disabled */
+ngx-mat-timepicker .mdc-icon-button[disabled] {
+    color: #aaa; /* Lighter color indicating disabled state */
+}
