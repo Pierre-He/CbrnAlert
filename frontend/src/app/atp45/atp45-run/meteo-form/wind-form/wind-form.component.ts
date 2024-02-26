@@ -23,6 +23,22 @@ export class WindFormComponent {
 
   ngOnInit(): void {
     this.parentForm.addControl('wind', this.windForm);
+
+    
+    // Subscribe to value changes and convert negatives to 0
+    this.windForm.get('speed').valueChanges.subscribe(value => {
+      if (value !== null && value  !== undefined && value < 0) {
+        this.windForm.get('speed').setValue(0);
+      }
+    });
+
+    this.windForm.get('azimuth').valueChanges.subscribe(value => {
+      if (value !== null && value  !== undefined && value < 0) {
+        this.windForm.get('azimuth').setValue(0);
+      }
+    });
+
+
   }
 
   isValid(): boolean {
