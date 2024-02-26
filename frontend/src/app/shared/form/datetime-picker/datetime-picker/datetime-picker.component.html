@@ -21,19 +21,22 @@ appearance="fill">
   <input class="datetime-picker" matInput [ngxMatDatetimePicker]="picker" placeholder="Choose a date" [formControl]="control"
      [min]="min ? min: ''" [max]="max ? max : ''">
   <mat-datepicker-toggle matSuffix [for]="$any(picker)" [style.color]="'#1976d2'"></mat-datepicker-toggle>
-  <ngx-mat-datetime-picker #picker [showSpinners]="true" 
-   [showSeconds]="true"
-     [stepHour]="steps.hour" 
-     [stepMinute]="steps.minute" 
-     [stepSecond]="steps.second"
-     [touchUi]="false" 
-     [color]="'primary'" 
-     [enableMeridian]="false"
-     [disableMinute]="steps.minute == 0 ? true : false"
-     [hideTime]="false"
-     class="mat-calendar"
-      >  
-  </ngx-mat-datetime-picker>
+  <div class="mat-app-background">
+      <ngx-mat-datetime-picker #picker [showSpinners]="true" 
+      [showSeconds]="true"
+      [stepHour]="steps.hour" 
+      [stepMinute]="steps.minute" 
+      [stepSecond]="steps.second"
+      [touchUi]="false" 
+      [color]="'primary'" 
+      [enableMeridian]="false"
+      [disableMinute]="steps.minute == 0 ? true : false"
+      [hideTime]="false"
+      class="mat-calendar"
+         >  
+   </ngx-mat-datetime-picker>
+  </div>
+  
 
   <!--
   <input class="datetime-picker" matInput [matDatepicker]="myDatepicker" placeholder="Choose a date" [formControl]="control"
