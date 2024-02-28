@@ -1,27 +1,4 @@
-/*
 
-@use '@angular/material' as mat;
-
-@import '@angular/material/theming';
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
-
-
-@include mat-core();
-
-$datetime-picker-primary: mat-palette($mat-indigo);
-$datetime-picker-accent:  mat-palette($mat-pink, A200, A100, A400);
-$datetime-picker-warn:    mat-palette($mat-red);
-
-$datetime-picker-theme: mat-light-theme($datetime-picker-primary, $datetime-picker-accent, $datetime-picker-warn);
-
-@include angular-material-theme($datetime-picker-theme);
-
-.ngx-mat-datetime-picker {
-    background-color: mat.get-color-from-palette($my-primary, 500);
-    color: mat.get-color-from-palette($my-accent, A200);
-  }
-
-  */
 
 $blue-primary: #4e73df; // color for calendar bar
 $blue-accent: #2196f3; // color for selected day
@@ -30,13 +7,26 @@ $blue-dark: #0d47a1; //color for current day
 
 // Targeting the calendar body for background color application
 .mat-calendar-content {
+  flex: 1;
   background-color: #E3F2FD;
+  //background-color: red;
+  border-color: #000;
 }
-
-ngx-mat-datetime-picker {
+/*
+ngx-mat-datetime-picker .mat-calendar-table{
   display: flex;
   flex-direction: column; 
+  height : 100%;
 }
+ngx-mat-datetime-picker .mat-calendar-table tbody tr {
+  flex: 1; 
+}
+
+ngx-mat-datetime-picker .mat-calendar-content{
+  flex : 1;
+  background-color: #4e73df;
+}
+  */
   
   
 .mat-calendar-body-cell-content {
@@ -85,12 +75,10 @@ ngx-mat-timepicker .mat-mdc-form-field {
 
   //text color
   .mat-mdc-input-element {
-    color: #000; /* Text color */
+    color: #000; 
   }
-
-    /* Style the icons within the time picker */
   mat-icon {
-    color: #000; /* Icon color for better visibility */
+    color: #e3f2fd; 
   }
 }
 
