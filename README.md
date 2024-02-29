@@ -35,7 +35,7 @@ You can now connect to http://localhost:4200 and login with login `test` and pas
 
 ## Alternative : Manual Reinstall (anomaly with setup.sh)
 If there is an issue, maybe the setup is reading with Windows CPLF Line return, which is incompatible with UNIX Systems since they use LF Line return. You can get Notepad++ 
-and open the setup.sh. In EDIT> choose LF and retry to open in a dev container and related steps above.
+and open the setup.sh. In EDIT> choose LF and try to build the container again.
 
 Usually, the issue should be fixed. Otherwise follow these manual steps below : 
 
