@@ -34,7 +34,10 @@ npm run start
 You can now connect to http://localhost:4200 and login with login `test` and password `test`.
 
 ## Alternative : Manual Reinstall (anomaly with setup.sh)
-Usually, the quickstart setup above should work. Otherwise follow these manual steps below : 
+If there is an issue, maybe the setup is reading with Windows CPLF Line return, which is incompatible with UNIX Systems since they use LF Line return. You can get Notepad++ 
+and open the setup.sh. In EDIT> choose LF and retry to open in a dev container and related steps above.
+
+Usually, the issue should be fixed. Otherwise follow these manual steps below : 
 
 ### Setup 
 0/ Write API keys on a file ".ecmwfapirc" and save it as no extension file in C:/Users/YOURNAME, check if there is NO folders with the same name !
