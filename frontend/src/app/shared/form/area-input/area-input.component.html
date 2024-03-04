@@ -1,62 +1,66 @@
-<fieldset [formGroup]="form" class="flex flex-row">
-    <div class="position"
-        style="
-            border: 1px solid #ccc; 
-            padding: 4px; border-radius: 4px;
-            margin: 4px;
-            background-color: #f9f9f9;">
+
+<div class="flex flex-row items-start max-h-14">
+
+    <fieldset [formGroup]="form" class="flex flex-row">
+        <div class="position"
+            style="
+                border: 1px solid #ccc; 
+                padding: 4px; border-radius: 4px;
+                margin: 4px;
+                background-color: #f9f9f9;">
 
 
-        <mat-form-field
-        appearance="fill"
-        class="w-20"
-        border-radius="4px"
-        >
-            <mat-label> Left</mat-label>
-            <input
-            matInput
-            formControlName="left"
+            <mat-form-field
+            appearance="fill"
+            class="w-20"
+            border-radius="4px"
             >
-        </mat-form-field>
-        <mat-form-field
-        appearance="fill"
-        class = "w-20"
-        >
-            <mat-label> Right </mat-label>
-            <input
-            matInput
-            formControlName="right"
+                <mat-label> Left</mat-label>
+                <input
+                matInput
+                formControlName="left"
+                >
+            </mat-form-field>
+            <mat-form-field
+            appearance="fill"
+            class = "w-20"
             >
-        </mat-form-field>
-        <mat-form-field
-        appearance="fill"
-        class = "w-20"
-        >
-            <mat-label> Top </mat-label>
-            <input
-            matInput
-            formControlName="top"
+                <mat-label> Right </mat-label>
+                <input
+                matInput
+                formControlName="right"
+                >
+            </mat-form-field>
+            <mat-form-field
+            appearance="fill"
+            class = "w-20"
             >
-        </mat-form-field>
-        <mat-form-field
-        appearance="fill"
-        class = "w-20"
-        >
-            <mat-label> Bottom </mat-label>
-            <input
-            matInput
-            formControlName="bottom"
+                <mat-label> Top </mat-label>
+                <input
+                matInput
+                formControlName="top"
+                >
+            </mat-form-field>
+            <mat-form-field
+            appearance="fill"
+            class = "w-20"
             >
-        </mat-form-field>
+                <mat-label> Bottom </mat-label>
+                <input
+                matInput
+                formControlName="bottom"
+                >
+            </mat-form-field>
 
-        <div class="flex flex-col ">
-        <button type="button" matTooltip="Move the marker to this position" (click)="onEnter()">
-            <mat-icon class="text-base">location_searching</mat-icon>
-        </button>
-        <button type="button" class="h-7" matTooltip="Read the coords from the marker position" (click)="setFromRectangle()">
-            <mat-icon class="text-base">read_more</mat-icon>
-        </button>
+            <div class="flex flex-col ">
+            <button type="button" matTooltip="Move the marker to this position" (click)="onEnter()">
+                <mat-icon class="text-base">location_searching</mat-icon>
+            </button>
+            <button type="button" class="h-7" matTooltip="Read the coords from the marker position" (click)="setFromRectangle()">
+                <mat-icon class="text-base">read_more</mat-icon>
+            </button>
+            </div>
         </div>
-    </div>
-    <br>
-</fieldset>
+
+    </fieldset>
+</div>
