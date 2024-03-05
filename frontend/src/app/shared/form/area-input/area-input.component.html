@@ -1,52 +1,64 @@
-<fieldset [formGroup]="form" class="flex flex-row">
-    <mat-form-field
-    appearance="outline"
-    class = "w-20"
-    >
-        <mat-label> Left </mat-label>
-        <input
-        matInput
-        formControlName="left"
-        >
-    </mat-form-field>
-    <mat-form-field
-    appearance="outline"
-    class = "w-20"
-    >
-        <mat-label> Right </mat-label>
-        <input
-        matInput
-        formControlName="right"
-        >
-    </mat-form-field>
-    <mat-form-field
-    appearance="outline"
-    class = "w-20"
-    >
-        <mat-label> Top </mat-label>
-        <input
-        matInput
-        formControlName="top"
-        >
-    </mat-form-field>
-    <mat-form-field
-    appearance="outline"
-    class = "w-20"
-    >
-        <mat-label> Bottom </mat-label>
-        <input
-        matInput
-        formControlName="bottom"
-        >
-    </mat-form-field>
 
-    <div class="flex flex-col ">
-      <button type="button" matTooltip="Move the marker to this position" (click)="onEnter()">
-          <mat-icon class="text-base">location_searching</mat-icon>
-      </button>
-      <button type="button" class="h-7" matTooltip="Read the coords from the marker position" (click)="setFromRectangle()">
-          <mat-icon class="text-base">read_more</mat-icon>
-      </button>
-    </div>
+    <fieldset [formGroup]="form" class="flex flex-row mb-4">
+        <!-- This div build the borders around the location input-->
+        <div class="position"
+            style="
+                border: 1px solid #ccc; 
+                padding: 4px; border-radius: 4px;
+                margin: 4px;
+                background-color: #f9f9f9;">
 
-</fieldset>
+
+            <mat-form-field
+            appearance="fill"
+            class="w-20"
+            border-radius="4px"
+            >
+                <mat-label> Left </mat-label>
+                <input
+                matInput
+                formControlName="left"
+                >
+            </mat-form-field>
+            <mat-form-field
+            appearance="fill"
+            class = "w-20"
+            >
+                <mat-label> Right </mat-label>
+                <input
+                matInput
+                formControlName="right"
+                >
+            </mat-form-field>
+            <mat-form-field
+            appearance="fill"
+            class = "w-20"
+            >
+                <mat-label> Top </mat-label>
+                <input
+                matInput
+                formControlName="top"
+                >
+            </mat-form-field>
+            <mat-form-field
+            appearance="fill"
+            class = "w-20"
+            >
+                <mat-label> Bottom </mat-label>
+                <input
+                matInput
+                formControlName="bottom"
+                >
+            </mat-form-field>
+
+            <div class="flex flex-col ">
+            <button type="button" matTooltip="Move the marker to this position" (click)="onEnter()">
+                <mat-icon class="text-base">location_searching</mat-icon>
+            </button>
+            <button type="button" class="h-7" matTooltip="Read the coords from the marker position" (click)="setFromRectangle()">
+                <mat-icon class="text-base">read_more</mat-icon>
+            </button>
+            </div>
+        </div>
+
+    </fieldset>

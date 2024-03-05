@@ -7,6 +7,8 @@ import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerMod
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppDatePipe } from 'src/app/shared/pipes/app-date-pipe';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { ThemePalette } from '@angular/material/core';
 
 
 
@@ -24,6 +26,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     NgxMatTimepickerModule,
     NgxMatNativeDateModule,
     MatDatepickerModule,
+    MatInputModule,
+    MatFormFieldModule
   ],
   exports: [
     DatetimePickerComponent

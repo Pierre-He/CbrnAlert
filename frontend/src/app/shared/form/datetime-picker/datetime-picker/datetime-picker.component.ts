@@ -8,6 +8,7 @@ import {
 import * as dayjs from 'dayjs';
 import { Subscription } from 'rxjs';
 import { AppDatePipe } from 'src/app/shared/pipes/app-date-pipe';
+import { ThemePalette } from '@angular/material/core';
 
 const FORMAT = 'DD/MM/YYYY HH:mm:ss'
 

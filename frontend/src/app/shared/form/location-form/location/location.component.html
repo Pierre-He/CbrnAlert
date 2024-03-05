@@ -1,8 +1,9 @@
 <div class = "flex flex-row items-start max-h-14">
     <fieldset [formGroup] = "form" (keydown.enter)="onEnter()" class = "flex flex-row justify-around pt-0">
         <mat-form-field
-        appearance="outline"
+        appearance="fill"
         class = "w-20"
+        
         >
             <mat-label> Long. </mat-label>
             <input
@@ -14,7 +15,7 @@
 
         <mat-form-field
         class="w-20"
-        appearance="outline">
+        appearance="fill">
             <mat-label> Latit. </mat-label>
             <input
             type="number"

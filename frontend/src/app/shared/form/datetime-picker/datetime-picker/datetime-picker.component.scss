@@ -1,0 +1,93 @@
+
+
+$blue-primary: #4e73df; // color for calendar bar
+$blue-accent: #2196f3; // color for selected day
+$blue-dark: #0d47a1; //color for current day
+
+
+// Targeting the calendar body for background color application
+.mat-calendar-content {
+  flex: 1;
+  background-color: #E3F2FD;
+  //background-color: red;
+  border-color: #000;
+}
+/*
+ngx-mat-datetime-picker .mat-calendar-table{
+  display: flex;
+  flex-direction: column; 
+  height : 100%;
+}
+ngx-mat-datetime-picker .mat-calendar-table tbody tr {
+  flex: 1; 
+}
+
+ngx-mat-datetime-picker .mat-calendar-content{
+  flex : 1;
+  background-color: #4e73df;
+}
+  */
+  
+  
+.mat-calendar-body-cell-content {
+  color: #000; 
+}
+
+
+// Apply the colors to the calendar and its elements
+.mat-calendar-header {
+  background-color: $blue-primary;
+  color: white;
+}
+
+.mdc-button__label{
+  color: white;
+}
+
+.mat-calendar-period-button {
+  color: white;
+}
+
+.mat-calendar-next-button, .mat-calendar-previous-button {
+  color: $blue-accent;
+}
+
+.mat-calendar-body-selected {
+  background-color: $blue-accent;
+  color: white;
+}
+
+.mat-calendar-body-today {
+  border-color: $blue-dark;
+}
+
+
+
+
+//timepicker box
+.time-container {
+    background-color: #e3f2fd;
+}
+
+ngx-mat-timepicker .mat-mdc-form-field {
+    background-color: #e3f2fd; /* Lighter or matching background for input fields */
+    color: #000; /* Ensure readable text color */
+
+  //text color
+  .mat-mdc-input-element {
+    color: #000; 
+  }
+  mat-icon {
+    color: #e3f2fd; 
+  }
+}
+
+/* Adjust the button colors for increment/decrement within the timepicker */
+ngx-mat-timepicker .mdc-icon-button {
+  color: #1976d2; /* Color for the buttons, adjust as needed */
+}
+
+/* Ensure disabled buttons are still visible but clearly disabled */
+ngx-mat-timepicker .mdc-icon-button[disabled] {
+  color: #aaa; /* Lighter color indicating disabled state */
+}

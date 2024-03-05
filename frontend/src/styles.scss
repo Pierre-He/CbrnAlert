@@ -1,7 +1,13 @@
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import './theme.scss';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 // @import '../node_modules/@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css';
+
+
+
 @layer components {
   .btn-primary {
     @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded;

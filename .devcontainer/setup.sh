@@ -18,3 +18,5 @@ openssl genrsa -out config/private.pem 2048
 openssl rsa -in config/private.pem -out config/public.pem -outform PEM -pubout
 
 #Do not forget to change it to UNIX (LF)
+##
+/root/.julia/conda/3/x86_64/bin/pip3 install genshi
