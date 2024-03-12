@@ -37,6 +37,9 @@ export namespace MapAction {
 
         constructor() {}
     }
+    export class PerformTwoPointsOperation {
+        static readonly type = '[Map] PerformTwoPointsOperation';
+    }
 }
 
 export class MapStateModel {

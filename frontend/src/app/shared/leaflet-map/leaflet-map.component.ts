@@ -78,7 +78,11 @@ export class LeafletMapComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void { 
+
+    //custom control for Leaflet map
+    this.addCustomControlToMap(this.mapService.leafletMap);
+  }
 
   onMapReady(map: Map) {
     this.mapService.leafletMap = map;
@@ -200,6 +204,32 @@ export class LeafletMapComponent implements OnInit {
         // Bind the popup to the marker
         newLayer.bindPopup(popupContent).openPopup();
   }
+
+
+  private addCustomControlToMap(map: Map) {
+    // Create a custom control button for the Leaflet map
+    const customControl = Control.extend({
+      options: {
+        position: 'topleft'
+      },
+
+      onAdd: () => {
+        // Create a button element
+        const button = document.createElement('button');
+        button.innerHTML = 'Two-Points';
+        button.title = 'Perform Two-Points Operation';
+        button.addEventListener('click', () => {
+          // Dispatch the PerformTwoPointsOperation action when the button is clicked
+          this.store.dispatch(new MapAction.PerformTwoPointsOperation());
+        });
+        return button;
+      }
+    });
+
+    // Add the custom control to the Leaflet map
+    map.addControl(new customControl());
+  }
+
 
 }
 
