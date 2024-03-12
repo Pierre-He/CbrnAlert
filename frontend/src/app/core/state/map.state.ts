@@ -37,6 +37,25 @@ export namespace MapAction {
 
         constructor() {}
     }
+
+    //for the logic of Chemical-Detailed-TypeB-ContainerD
+    export class SubmitMarkerData {
+        static readonly type = '[Map] SubmitMarkerData';
+
+        constructor(public payload: { firstMarkerLocation: GeoPoint, secondMarkerLocation: GeoPoint }) {}
+    }
+
+    export class UpdateFirstMarkerLocation {
+        static readonly type = '[Map] UpdateFirstMarkerLocation';
+
+        constructor(public payload: GeoPoint) {}
+    }
+
+    export class UpdateSecondMarkerLocation {
+        static readonly type = '[Map] UpdateSecondMarkerLocation';
+
+        constructor(public payload: GeoPoint) {}
+    }
 }
 
 export class MapStateModel {

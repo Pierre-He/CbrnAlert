@@ -30,6 +30,7 @@ export class CaseSelectionComponent implements OnInit {
 
   savedIndices: number[] = [];
 
+
   constructor(private api: Atp45ApiService) {}
 
   ngOnInit(): void {

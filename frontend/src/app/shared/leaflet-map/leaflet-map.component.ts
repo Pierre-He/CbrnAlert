@@ -70,6 +70,10 @@ export class LeafletMapComponent implements OnInit {
   //   marker([ 46.879966, 4 ])
   // ]);
 
+  //code for Chemical-Detailed-TypeB-ContainerD two markers
+  firstMarker: Marker | null = null;
+  secondMarker: Marker | null = null;
+
   constructor(
     public mapService: MapService,
     public mapPlotsService: MapPlotsService,
@@ -175,9 +179,25 @@ export class LeafletMapComponent implements OnInit {
         }
       this.mapService.leafletMap.removeLayer(removedLayer);
       }
+    }),
+    
+    //code for Chemical-Detailed-TypeB-ContainerD two markers
+    map.on('click', (e) => {
+      if (this.firstMarker === null) {
+        // Create and add the first marker
+        this.firstMarker = marker([e.latlng.lat, e.latlng.lng], { draggable: true }).addTo(map);
+        this.firstMarker.bindPopup('First Marker').openPopup();
+        this.firstMarker.on('dragend', () => this.onFirstMarkerDragEnd());
+      } else if (this.secondMarker === null) {
+        // Create and add the second marker
+        this.secondMarker = marker([e.latlng.lat, e.latlng.lng], { draggable: true }).addTo(map);
+        this.secondMarker.bindPopup('Second Marker').openPopup();
+        this.secondMarker.on('dragend', () => this.onSecondMarkerDragEnd());
+      }
     })
-  
+    
   }
+
   private createPopup(newLayer: Layer, layerType:'Marker' | 'Rectangle'){
          // Create a button for the popup
         const removeButton = document.createElement('button');
@@ -199,6 +219,41 @@ export class LeafletMapComponent implements OnInit {
 
         // Bind the popup to the marker
         newLayer.bindPopup(popupContent).openPopup();
+  }
+
+  onFirstMarkerDragEnd() {
+    // Update the state or variables with the location of the first marker
+    this.store.dispatch(new MapAction.UpdateFirstMarkerLocation({
+      lat: this.firstMarker!.getLatLng().lat,
+      lon: this.firstMarker!.getLatLng().lng
+    }));
+  }
+
+  onSecondMarkerDragEnd() {
+    // Update the state or variables with the location of the second marker
+    this.store.dispatch(new MapAction.UpdateSecondMarkerLocation({
+      lat: this.secondMarker!.getLatLng().lat,
+      lon: this.secondMarker!.getLatLng().lng
+    }));
+
+    // Submit the data when both markers are filled
+    this.submitMarkerData();
+  }
+
+  submitMarkerData() {
+    if (this.firstMarker !== null && this.secondMarker !== null) {
+      const firstMarkerLocation = {
+        lat: this.firstMarker.getLatLng().lat,
+        lon: this.firstMarker.getLatLng().lng
+      };
+      const secondMarkerLocation = {
+        lat: this.secondMarker.getLatLng().lat,
+        lon: this.secondMarker.getLatLng().lng
+      };
+
+      // Submit the data (locations of both markers) for further processing
+      this.store.dispatch(new MapAction.SubmitMarkerData({ firstMarkerLocation, secondMarkerLocation }));
+    }
   }
 
 }
