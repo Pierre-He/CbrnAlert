@@ -60,7 +60,7 @@ export class AreaInputComponent implements ControlValueAccessor, OnDestroy {
   }
 
   setFromRectangle() {
-    alert("SET FROM RECT")
+    //alert("SET FROM RECT")
     this.userArea$.pipe(
       // skip(1),
       first(),
