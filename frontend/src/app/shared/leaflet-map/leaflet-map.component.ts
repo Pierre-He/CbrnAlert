@@ -72,16 +72,25 @@ export class LeafletMapComponent implements OnInit {
   //   marker([ 46.879966, 4 ])
   // ]);
 
+  
+  dualMarkerMode: boolean = false;
+  currentMarkers: Marker[] = [];
+
   constructor(
     public mapService: MapService,
     public mapPlotsService: MapPlotsService,
     public store: Store,
     private markerService: MarkerService,
+    
    
   ) {
 
     this.markerService.dualMarkerMode$.subscribe(isDualMode=> {
-      
+      this.dualMarkerMode = isDualMode;
+      //delete all markers when user use dual mode markers
+      if(isDualMode) {
+        this.clearAllMarkers();
+      }
     })
   }
 
@@ -135,37 +144,38 @@ export class LeafletMapComponent implements OnInit {
         this.createPopup(newLayer,'Rectangle')
 
       } else if (e.shape == 'Marker') {
-        // Change the current marker if exists, and create it if not
-        const newLayer = e.layer as Marker
-        const previousLayer = this.mapService.drawnMarker;
 
 
-        if (previousLayer) {
-          // this.mapService.copyMarkerPosition(newLayer);
-          //alert("previousLayer TRUE")
-          this.store.dispatch(new MapAction.ChangeMarker(this.mapService.markerToPoint(newLayer)));
-          this.mapService.leafletMap.removeLayer(newLayer)
-        } else {
-          this.mapService.drawnMarker = newLayer
-          //alert("NO-OLD ADD first line appeared")
-          this.store.dispatch(new MapAction.ChangeMarker(this.mapService.markerToPoint(e.layer as Marker)));
-          //alert(" NO-OLD ADD second line appeared")
-          this.mapService.drawnMarker.on('pm:edit', (e: any) => {
+        if(!this.dualMarkerMode ||!this.mapService.drawnMarker) {
+        //individual marker mode
+        
+          // Change the current marker if exists, and create it if not
+          const newLayer = e.layer as Marker
+          const previousLayer = this.mapService.drawnMarker;
+
+
+          if (previousLayer) {
+            // this.mapService.copyMarkerPosition(newLayer);
+            //alert("previousLayer TRUE")
+            this.store.dispatch(new MapAction.ChangeMarker(this.mapService.markerToPoint(newLayer)));
+            this.mapService.leafletMap.removeLayer(newLayer)
+          } else {
+            this.mapService.drawnMarker = newLayer
+            //alert("NO-OLD ADD first line appeared")
             this.store.dispatch(new MapAction.ChangeMarker(this.mapService.markerToPoint(e.layer as Marker)));
-            //alert(" MOVING third line appeared")
-          })
+            //alert(" NO-OLD ADD second line appeared")
+            this.mapService.drawnMarker.on('pm:edit', (e: any) => {
+              this.store.dispatch(new MapAction.ChangeMarker(this.mapService.markerToPoint(e.layer as Marker)));
+              //alert(" MOVING third line appeared")
+            })
+          }
+
+          //popup eraser
+          this.createPopup(newLayer,'Marker')
         }
-
-        
-        // Get the lat lng test
-        //alert(newLayer.getLatLng().lat.toFixed(2))
-        //alert(newLayer.getLatLng().lng.toFixed(2))
-        //this.mapService.copyMarkerPosition(newLayer)
-        
-      
-        //popup eraser
-        this.createPopup(newLayer,'Marker')
-
+        else {
+          //dual Marker mode 
+        }
       }
     })
     
@@ -188,6 +198,7 @@ export class LeafletMapComponent implements OnInit {
     })
   
   }
+
   private createPopup(newLayer: Layer, layerType:'Marker' | 'Rectangle'){
          // Create a button for the popup
         const removeButton = document.createElement('button');
@@ -211,5 +222,15 @@ export class LeafletMapComponent implements OnInit {
         newLayer.bindPopup(popupContent).openPopup();
   }
 
+  //dual mode marker erasure
+  clearAllMarkers() {
+    if (this.mapService.drawnMarker) {
+      this.mapService.leafletMap.removeLayer(this.mapService.drawnMarker);
+      this.mapService.drawnMarker = undefined;
+    }
+  }
+
 }
+
+
 
