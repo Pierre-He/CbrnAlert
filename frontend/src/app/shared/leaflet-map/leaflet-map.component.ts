@@ -144,15 +144,15 @@ export class LeafletMapComponent implements OnInit {
         this.createPopup(newLayer,'Rectangle')
 
       } else if (e.shape == 'Marker') {
-
-
-        if(!this.dualMarkerMode ||!this.mapService.drawnMarker) {
-        //individual marker mode
+        const newMarker = e.layer as Marker
+        this.handleMarkerCreation(newMarker);
         
+        
+
+         /*  //individual marker mode WORKING (OLD)
           // Change the current marker if exists, and create it if not
           const newLayer = e.layer as Marker
           const previousLayer = this.mapService.drawnMarker;
-
 
           if (previousLayer) {
             // this.mapService.copyMarkerPosition(newLayer);
@@ -169,13 +169,9 @@ export class LeafletMapComponent implements OnInit {
               //alert(" MOVING third line appeared")
             })
           }
-
           //popup eraser
-          this.createPopup(newLayer,'Marker')
-        }
-        else {
-          //dual Marker mode 
-        }
+          this.createPopup(newLayer,'Marker') */
+
       }
     })
     
@@ -220,6 +216,38 @@ export class LeafletMapComponent implements OnInit {
 
         // Bind the popup to the marker
         newLayer.bindPopup(popupContent).openPopup();
+  }
+
+
+  handleMarkerCreation(newMarker: Marker) {
+    if (this.dualMarkerMode) {
+      if (this.currentMarkers.length >= 2) {
+        // Remove the first marker from the map and array
+        this.mapService.leafletMap.removeLayer(this.currentMarkers[0]);
+        this.currentMarkers.shift();
+      }
+  
+      // Add the new marker to the map and array
+      this.currentMarkers.push(newMarker);
+      this.updateMarkersStateAndForms();
+    } else {
+      // Single marker mode: clear existing marker and add the new one
+      this.clearAllMarkers();
+      this.currentMarkers.push(newMarker);
+      this.updateMarkersStateAndForms();
+    }
+  }
+
+
+  updateMarkersStateAndForms() {
+    // Example of dispatching actions to update form fields based on marker positions
+    // This is a conceptual approach; adjust according to your state management and form setup
+    this.currentMarkers.forEach((marker, index) => {
+      const position = marker.getLatLng();
+      //const action = new MapAction.UpdateMarkerPosition({ index, position });
+      //this.store.dispatch(action);
+      alert(`Marker ${index}: Lat ${position.lat}, Lng ${position.lng}`);
+    });
   }
 
   //dual mode marker erasure
