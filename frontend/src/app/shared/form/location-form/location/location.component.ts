@@ -6,6 +6,8 @@ import { first, skip } from 'rxjs/operators';
 import { MapState, MapAction } from 'src/app/core/state/map.state';
 import { GeoPoint } from 'src/app/core/api/models';
 import { ControlValueAccessor, FormControl, FormGroup } from '@angular/forms';
+import { MarkerService } from 'src/app/core/services/marker.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ControlsOf } from 'src/app/shared/form/controls-of';
 // interface Locations {
 //     locations: FormArray<GeoPoint>
@@ -52,10 +54,16 @@ export class LocationComponent implements ControlValueAccessor, OnDestroy, Valid
 
     onChangeSubs: Subscription[] = [];
 
+    //boolean for the toggle dual-markers
+    dualMarkerMode: boolean = false;
+
     @Select(MapState.userPoint) marker$: Observable<GeoPoint>;
+    
 
     constructor(
         public store: Store,
+        public markerService: MarkerService,
+        public snackBar : MatSnackBar
         // @Self() @Optional() private control: NgControl
     ) {
       // this.control.valueAccessor = this;
@@ -63,6 +71,15 @@ export class LocationComponent implements ControlValueAccessor, OnDestroy, Valid
        // auto fill form
     this.markerSub = this.marker$.subscribe((marker) => {
         this.setMarker(marker);
+      });
+
+      this.markerService.dualMarkerMode$.subscribe(isDualMode => {
+        
+
+
+
+        // Adjust the form auto-completion logic based on isDualMode
+        // E.g., if isDualMode is true, fill in both location inputs without auto-clearing
       });
     }
 
@@ -145,6 +162,30 @@ export class LocationComponent implements ControlValueAccessor, OnDestroy, Valid
         for (let sub of this.onChangeSubs) {
             sub.unsubscribe();
         }
+    }
+
+    //Methods for the dual Marker mode toggle
+    toggleDualMarkerMode(): void {
+        this.dualMarkerMode = !this.dualMarkerMode;
+    }
+
+    //simple test with an alert for the method above
+    toggleModeAndShowAlert(): void {
+        this.markerService.toggleDualMarkerMode();
+        this.markerService.dualMarkerMode$.subscribe(isDualMode => {
+          alert(`Dual Marker Mode is now: ${isDualMode ? 'ON' : 'OFF'}`);
+
+        }).unsubscribe(); // Immediately unsubscribe to prevent memory leaks for this one-time operation.
+    }
+
+    toggleModeAndSnackBar():void {
+        this.markerService.toggleDualMarkerMode();
+        this.markerService.dualMarkerMode$.subscribe(isDualMode => {
+            this.snackBar.open(`Dual Marker Mode is now: ${isDualMode ? 'ON' : 'OFF'}`,'Close',{
+                duration:3000,
+            });
+  
+        }).unsubscribe();
     }
 }
 

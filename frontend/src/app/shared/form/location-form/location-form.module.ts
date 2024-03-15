@@ -7,8 +7,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-
+//import { MarkerService } from 'src/app/core/services/marker.service';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,8 @@ import { MatButtonModule } from '@angular/material/button';
     ReactiveFormsModule,
     MatInputModule,
     MatButtonModule,
+    MatSnackBarModule,
+    //MarkerService
   ],
   exports: [
     LocationArrayComponent,

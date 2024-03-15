@@ -11,6 +11,8 @@ import { MapPlotState } from 'src/app/core/state/map-plot.state';
 import { MapPlot } from 'src/app/core/models/map-plot';
 import { map, tap } from 'rxjs/operators';
 import { MapPlotsService } from 'src/app/core/services/map-plots.service';
+import { MarkerService } from 'src/app/core/services/marker.service'
+
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
@@ -74,9 +76,17 @@ export class LeafletMapComponent implements OnInit {
     public mapService: MapService,
     public mapPlotsService: MapPlotsService,
     public store: Store,
+    private markerService: MarkerService,
    
   ) {
+
+    this.markerService.dualMarkerMode$.subscribe(isDualMode=> {
+      
+    })
   }
+
+  
+
 
   ngOnInit(): void { }
 
