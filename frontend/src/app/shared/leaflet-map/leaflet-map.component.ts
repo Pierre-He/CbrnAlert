@@ -12,7 +12,7 @@ import { MapPlot } from 'src/app/core/models/map-plot';
 import { map, tap } from 'rxjs/operators';
 import { MapPlotsService } from 'src/app/core/services/map-plots.service';
 import { MarkerService } from 'src/app/core/services/marker.service'
-
+import { GeoPoint } from 'src/app/core/api/models';
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
@@ -243,12 +243,13 @@ export class LeafletMapComponent implements OnInit {
     // Example of dispatching actions to update form fields based on marker positions
     // This is a conceptual approach; adjust according to your state management and form setup
     this.currentMarkers.forEach((marker, index) => {
-      const position = marker.getLatLng();
-      //const action = new MapAction.UpdateMarkerPosition({ index, position });
-      //this.store.dispatch(action);
-      alert(`Marker ${index}: Lat ${position.lat}, Lng ${position.lng}`);
+      const latlng = marker.getLatLng();
+      const position: GeoPoint = { lat: latlng.lat, lon: latlng.lng }; // New marker position
+this.store.dispatch(new MapAction.UpdateMarkerPosition({ index, position }));
+      //alert(`Marker ${index}: Lat ${position.lat}, Lng ${position.lng}`);
     });
   }
+
 
   //dual mode marker erasure
   clearAllMarkers() {

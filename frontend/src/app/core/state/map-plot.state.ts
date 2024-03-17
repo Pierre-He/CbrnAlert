@@ -48,6 +48,10 @@ export namespace MapPlotAction {
 
     constructor(public mapPlotId: number) { }
   }
+
+
+
+
 }
 
 export class MapPlotStateModel {
@@ -201,4 +205,8 @@ export class MapPlotState {
     //   activePlot: newActive
     // })
   }
+
+  
+
+
 }

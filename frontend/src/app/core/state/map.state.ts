@@ -37,6 +37,12 @@ export namespace MapAction {
 
         constructor() {}
     }
+    
+    //for dual mode 
+    export class UpdateMarkerPosition {
+        static readonly type = '[MapPlot] Update Marker Position';
+        constructor(public payload: { index: number; position: GeoPoint }) {}
+  }
 }
 
 export class MapStateModel {
@@ -105,6 +111,19 @@ export class MapState {
             area: undefined
         })
     }
+
+    @Action(MapAction.UpdateMarkerPosition)
+    updateMarkerPosition(ctx: StateContext<MapStateModel>, action: MapAction.UpdateMarkerPosition) {
+        // Example logic for a single marker; adjust based on your requirements
+        if (action.payload.index === 0) { // Assuming index 0 is for the primary marker
+            this.mapService.changeMarkerPosition(action.payload.position); // Update marker position on the map if needed
+            ctx.patchState({
+                userPoint: action.payload.position
+            });
+        }
+        // Add logic here for handling a second marker if necessary
+    }
+    
     // @Action(MapAction.Show)
     // show(ctx: StateContext<MapStateModel>, action : MapAction.Show ) {
     //     ctx.setState(produce(draft => {
