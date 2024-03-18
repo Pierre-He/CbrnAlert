@@ -240,11 +240,11 @@ export class LeafletMapComponent implements OnInit {
     this.createPopup(newMarker, 'Marker')
     newMarker.on('pm:edit', (e: any) => {
       const editedMarker = e.target;
-      //const newPosition = editedMarker.getLatLng();
+      const newLatLng = editedMarker.getLatLng();
       
       if (!this.dualMarkerMode) {
         // Update the form directly for individual marker mode
-        this.markerService.updateMarkerPosition(newPosition);
+        this.markerService.updateMarkerPosition(newLatLng);
       } else {
         // For dual marker mode, you might already have logic to handle this
       }
