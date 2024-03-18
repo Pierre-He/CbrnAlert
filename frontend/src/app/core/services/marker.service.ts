@@ -17,6 +17,10 @@ export class MarkerService {
   private dualMarkerMode = new BehaviorSubject<boolean>(false);
   dualMarkerMode$ = this.dualMarkerMode.asObservable();
 
+  //observable for individual marker
+  private markerPositionSource = new BehaviorSubject<GeoPoint>({ lat: 0, lon: 0 });
+  marker$ = this.markerPositionSource.asObservable();
+
   //create an observable on the marker array
   private markerPositionsSource = new BehaviorSubject<GeoPoint[]>([]);
   markerPositions$ = this.markerPositionsSource.asObservable();
@@ -56,10 +60,20 @@ export class MarkerService {
       }
   }
 
-  public updateMarkerPosition(newPosition: GeoPoint) {
-    this.markerPositionsSource.next(newPosition)
+  public updateMarkerPosition(newPosition: GeoPoint): void {
+    //this.markerPositionSource.next(newPosition)
+    this.markers = [newPosition];
+    console.log("Marker position updated in service:", newPosition);
   }
 
+  getLatestMarkerPosition(): GeoPoint | null {
+    
+    if (this.markers.length > 0) {
+        return this.markers[this.markers.length - 1]; 
+    } else {
+        return null; 
+    }
+}
 
 
 }

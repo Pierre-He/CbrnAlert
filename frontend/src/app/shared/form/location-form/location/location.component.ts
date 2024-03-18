@@ -100,12 +100,22 @@ export class LocationComponent implements ControlValueAccessor, OnDestroy, Valid
     }
 
     setFromMarker() {
-        this.marker$.pipe(
+        /* this.marker$.pipe(
             first(),
         ).subscribe(
             marker => this.setMarker(marker)
-        )
-        alert("setfrom")
+        ) */
+
+        const latestPosition = this.markerService.getLatestMarkerPosition();
+        if (latestPosition) {
+            this.form.patchValue({
+                lon: latestPosition.lon,
+                lat: latestPosition.lat,
+            });
+            alert("inside if to update");
+        } else {
+            alert("No latest marker position found.");
+        }
     }
 
     setFromMapClick() {
@@ -191,6 +201,8 @@ export class LocationComponent implements ControlValueAccessor, OnDestroy, Valid
   
         }).unsubscribe();
     }
+
+    
 }
 
 let lonLatFormat = /^-?\d{1,3}[,|.]?\d*$/gm;
