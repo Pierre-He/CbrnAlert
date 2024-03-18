@@ -92,6 +92,8 @@ export class LeafletMapComponent implements OnInit {
         this.clearAllMarkers();
       }
     })
+
+    this.markerService.setLeafletMapComponent(this);
   }
 
   
@@ -182,14 +184,14 @@ export class LeafletMapComponent implements OnInit {
       //check if rectangle or not
       if (removedLayer instanceof Marker) {
         if (removedLayer === this.mapService.drawnMarker) {
-          this.mapService.drawnMarker = undefined; 
+          this.removeMarker(removedLayer);
         }
       } else if (removedLayer instanceof Rectangle) {
 
         if (removedLayer === this.mapService.drawnRectangle) {
           this.mapService.drawnRectangle = undefined; 
         }
-      this.mapService.leafletMap.removeLayer(removedLayer);
+      //this.mapService.leafletMap.removeLayer(removedLayer);
       }
     })
   
@@ -200,14 +202,14 @@ export class LeafletMapComponent implements OnInit {
         const removeButton = document.createElement('button');
         removeButton.innerText = 'Click to Remove';
         removeButton.addEventListener('click', () => {
-          
-          // Handle remove button click based on layer type
-        if (layerType === 'Marker' && newLayer === this.mapService.drawnMarker) {
-          this.mapService.drawnMarker = undefined; // Clear the reference
+        this.mapService.leafletMap.removeLayer(newLayer);
+        // Handle remove button click based on layer type
+        if (layerType === 'Marker' && newLayer instanceof Marker) {
+          this.removeMarker(newLayer);
         } else if (layerType === 'Rectangle' && newLayer === this.mapService.drawnRectangle) {
           this.mapService.drawnRectangle = undefined; 
         }
-          this.mapService.leafletMap.removeLayer(newLayer);
+          
         });
 
         // Create a popup with the button
@@ -218,8 +220,36 @@ export class LeafletMapComponent implements OnInit {
         newLayer.bindPopup(popupContent).openPopup();
   }
 
+  removeMarker(markerToRemove: Marker){
+      // Find the index of the marker to remove
+    const indexToRemove = this.currentMarkers.findIndex(marker => marker === markerToRemove);
+
+    if (indexToRemove !== -1) {
+      // Remove the marker from the map
+      this.mapService.leafletMap.removeLayer(markerToRemove);
+      // Remove the marker from the currentMarkers array
+      this.currentMarkers.splice(indexToRemove, 1);
+      
+      // Optionally, update the state and forms if needed
+      this.updateMarkersStateAndForms();
+    }
+  }
+
 
   handleMarkerCreation(newMarker: Marker) {
+    this.createPopup(newMarker, 'Marker')
+    newMarker.on('pm:edit', (e: any) => {
+      const editedMarker = e.target;
+      //const newPosition = editedMarker.getLatLng();
+      
+      if (!this.dualMarkerMode) {
+        // Update the form directly for individual marker mode
+        this.markerService.updateMarkerPosition(newPosition);
+      } else {
+        // For dual marker mode, you might already have logic to handle this
+      }
+    });
+    
     if (this.dualMarkerMode) {
       if (this.currentMarkers.length >= 2) {
         // Remove the first marker from the map and array
@@ -240,23 +270,23 @@ export class LeafletMapComponent implements OnInit {
 
 
   updateMarkersStateAndForms() {
-    // Example of dispatching actions to update form fields based on marker positions
-    // This is a conceptual approach; adjust according to your state management and form setup
+  
     this.currentMarkers.forEach((marker, index) => {
       const latlng = marker.getLatLng();
       const position: GeoPoint = { lat: latlng.lat, lon: latlng.lng }; // New marker position
-this.store.dispatch(new MapAction.UpdateMarkerPosition({ index, position }));
+      this.store.dispatch(new MapAction.UpdateMarkerPosition({ index, position }));
       //alert(`Marker ${index}: Lat ${position.lat}, Lng ${position.lng}`);
     });
   }
 
 
   //dual mode marker erasure
-  clearAllMarkers() {
-    if (this.mapService.drawnMarker) {
-      this.mapService.leafletMap.removeLayer(this.mapService.drawnMarker);
-      this.mapService.drawnMarker = undefined;
-    }
+  public clearAllMarkers() {
+    this.currentMarkers.forEach(marker => {
+      this.mapService.leafletMap.removeLayer(marker);
+  });
+  this.currentMarkers = []; // Clear the array after removing all markers
+  alert("Clear all from LeafletMap");
   }
 
 }

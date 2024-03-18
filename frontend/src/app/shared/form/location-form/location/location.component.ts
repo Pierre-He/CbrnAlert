@@ -105,6 +105,7 @@ export class LocationComponent implements ControlValueAccessor, OnDestroy, Valid
         ).subscribe(
             marker => this.setMarker(marker)
         )
+        alert("setfrom")
     }
 
     setFromMapClick() {
@@ -167,6 +168,7 @@ export class LocationComponent implements ControlValueAccessor, OnDestroy, Valid
     //Methods for the dual Marker mode toggle
     toggleDualMarkerMode(): void {
         this.dualMarkerMode = !this.dualMarkerMode;
+        
     }
 
     //simple test with an alert for the method above
@@ -179,6 +181,8 @@ export class LocationComponent implements ControlValueAccessor, OnDestroy, Valid
     }
 
     toggleModeAndSnackBar():void {
+        this.markerService.clearAllMarkers();
+        alert("toggled from location");
         this.markerService.toggleDualMarkerMode();
         this.markerService.dualMarkerMode$.subscribe(isDualMode => {
             this.snackBar.open(`Dual Marker Mode is now: ${isDualMode ? 'ON' : 'OFF'}`,'Close',{
