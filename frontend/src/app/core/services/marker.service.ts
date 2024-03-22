@@ -17,6 +17,10 @@ export class MarkerService {
   private dualMarkerMode = new BehaviorSubject<boolean>(false);
   dualMarkerMode$ = this.dualMarkerMode.asObservable();
 
+  //for dual marker component 
+  private dualMarkersSource = new BehaviorSubject<GeoPoint[]>([]);
+    dualMarkers$ = this.dualMarkersSource.asObservable();
+
   //observable for individual marker
   private markerPositionSource = new BehaviorSubject<GeoPoint>({ lat: 0, lon: 0 });
   marker$ = this.markerPositionSource.asObservable();
@@ -56,7 +60,7 @@ export class MarkerService {
   public clearAllMarkers(): void {
       if (this.leafletMapComponent) {
           this.leafletMapComponent.clearAllMarkers();
-          alert("Clear all from Service")
+          //alert("Clear all from Service")
       }
   }
 

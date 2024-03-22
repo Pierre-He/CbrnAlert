@@ -1,0 +1,67 @@
+<div class = "flex flex-row items-start max-h-14">
+    <fieldset [formGroup] = "form" (keydown.enter)="onEnter()" class = "flex flex-row justify-around pt-0">
+        <mat-form-field
+        appearance="fill"
+        class = "w-20"
+        
+        >
+            <mat-label> Loooong. </mat-label>
+            <input
+            type="number"
+            matInput
+            formControlName="lon"
+            >
+        </mat-form-field>
+
+        <mat-form-field
+        class="w-20"
+        appearance="fill">
+            <mat-label> Latit. </mat-label>
+            <input
+            type="number"
+            matInput
+            formControlName="lat"
+            >
+        </mat-form-field>
+        
+    </fieldset>
+    <fieldset [formGroup] = "form" (keydown.enter)="onEnter()" class = "flex flex-row justify-around pt-0">
+        <mat-form-field
+        appearance="fill"
+        class = "w-20"
+        
+        >
+            <mat-label> Long. </mat-label>
+            <input
+            type="number"
+            matInput
+            formControlName="lon"
+            >
+        </mat-form-field>
+
+        <mat-form-field
+        class="w-20"
+        appearance="fill">
+            <mat-label> Latit. </mat-label>
+            <input
+            type="number"
+            matInput
+            formControlName="lat"
+            >
+        </mat-form-field>
+        
+    </fieldset>
+    <div class="flex flex-col ">
+        <button type="button" matTooltip="Move the marker to this position" (click)="onEnter()">
+            <mat-icon class="text-base">location_searching</mat-icon>
+        </button>
+        <button type="button" class="h-7" matTooltip="Read the coords from the marker position" (click)="setFromMarker()">
+            <mat-icon class="text-base">read_more</mat-icon>
+        </button>
+        
+    </div>
+    <!-- Button to toggle here -->
+    <button type="button" class="h-7" matTooltip="Switch to double-marker mode" (click)="toggleModeAndSnackBar()">
+        <mat-icon class="text-base">looks_two</mat-icon>
+    </button>
+</div>

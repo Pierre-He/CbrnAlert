@@ -283,7 +283,7 @@ export class LeafletMapComponent implements OnInit {
       this.mapService.leafletMap.removeLayer(marker);
   });
   this.currentMarkers = []; // Clear the array after removing all markers
-  alert("Clear all from LeafletMap");
+  //alert("Clear all from LeafletMap");
   }
 
 }

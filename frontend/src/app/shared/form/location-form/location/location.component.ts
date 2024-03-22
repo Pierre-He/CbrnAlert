@@ -112,9 +112,9 @@ export class LocationComponent implements ControlValueAccessor, OnDestroy, Valid
                 lon: latestPosition.lon,
                 lat: latestPosition.lat,
             });
-            alert("inside if to update");
+            //alert("inside if to update");
         } else {
-            alert("No latest marker position found.");
+            //alert("No latest marker position found.");
         }
     }
 
@@ -192,7 +192,7 @@ export class LocationComponent implements ControlValueAccessor, OnDestroy, Valid
 
     toggleModeAndSnackBar():void {
         this.markerService.clearAllMarkers();
-        alert("toggled from location");
+        //alert("toggled from location");
         this.markerService.toggleDualMarkerMode();
         this.markerService.dualMarkerMode$.subscribe(isDualMode => {
             this.snackBar.open(`Dual Marker Mode is now: ${isDualMode ? 'ON' : 'OFF'}`,'Close',{
