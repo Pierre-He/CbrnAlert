@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { GeoPoint } from '../api/models';
 import { LeafletMapComponent } from 'src/app/shared/leaflet-map/leaflet-map.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +29,9 @@ export class MarkerService {
   //create an observable on the marker array
   private markerPositionsSource = new BehaviorSubject<GeoPoint[]>([]);
   markerPositions$ = this.markerPositionsSource.asObservable();
+
+  
+  constructor(private snackBar: MatSnackBar) {}
 
   //switch the value of said boolean
   toggleDualMarkerMode() {
@@ -77,7 +81,16 @@ export class MarkerService {
     } else {
         return null; 
     }
-}
+  }
 
+  //depending on the selection of categories, toggles
+  toggleDualMarkerModeAndShowSnackBar() {
+    alert("in toggle dual marker in service")
+    const currentValue = this.dualMarkerMode.getValue();
+    this.dualMarkerMode.next(!currentValue);
+    this.snackBar.open(`Dual Marker Mode is now: ${!currentValue ? 'ON' : 'OFF'}`, 'Close', {
+      duration: 3000,
+    });
+  }
 
 }

@@ -13,6 +13,7 @@ import { map, take } from 'rxjs/operators';
 import { ForecastStartAction } from 'src/app/core/state/atp45.state';
 import { TabsComponent } from 'src/app/shared/tabs/tabs.component';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { MarkerService } from 'src/app/core/services/marker.service';
 
 @Component({
   selector: 'app-atp45-run',
@@ -38,7 +39,8 @@ export class Atp45RunComponent implements OnInit {
     private api: Atp45ApiService,
     private atp45Service: Atp45Service,
     private store: Store,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private markerService: MarkerService
   ) {
     this.runForm.statusChanges.subscribe(() => {
       this.updateCanSubmit();
@@ -84,6 +86,7 @@ export class Atp45RunComponent implements OnInit {
     // If so, launch an alert
     if (hasContainerGroupD) {
       alert('A category with the ID "containergroupd" has been selected.');
+      this.markerService.toggleDualMarkerModeAndShowSnackBar();
     }
 
 
@@ -127,6 +130,6 @@ export class Atp45RunComponent implements OnInit {
     //trigger the AreaPopup.
 
     this.atp45Service.sendData();
-    alert("this should have been after the service sendData")
+    //alert("this should have been after the service sendData")
   }
 }
