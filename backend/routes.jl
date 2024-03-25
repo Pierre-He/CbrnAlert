@@ -36,6 +36,16 @@ global DEBUG_REQUEST = 0
 # end
 
 route("/api/login", AuthenticationController.login, method = POST)
+route("/api/updateHazardZone", method=POST) do
+    payload = Genie.Requests.jsonpayload()
+    
+    try
+        updateHazardZone(payload) 
+        return Genie.Response.json(Dict("status" => "success", "message" => "Hazard zone updated successfully"))
+    catch e
+        return Genie.Response.json(Dict("status" => "error", "message" => "Failed to update hazard zone", "error" => string(e)), status=400)
+    end
+end
 
 api_routes = Dict(
     "/forecast/available" => (f=Atp45Controller.available_steps, keyargs=(method=GET,)),

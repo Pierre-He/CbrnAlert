@@ -19,9 +19,21 @@ import { ReleaseLocationsFormComponent } from './release-locations-form/release-
 import { TabComponent, TabsComponent } from 'src/app/shared/tabs/tabs.component';
 import { FieldsetComponent } from 'src/app/shared/form/fieldset/fieldset.component';
 import { ArchiveComponent } from './archive/archive.component';
+import { AreaPopupComponent } from './area-popup/area-popup.component';
 
 @NgModule({
-  declarations: [CaseSelectionComponent, ListItemComponent, SelectionListComponent, MeteoFormComponent, WindFormComponent, Atp45RunComponent, StabilityFormComponent, ReleaseLocationsFormComponent, ArchiveComponent],
+  declarations: [
+    CaseSelectionComponent, 
+    ListItemComponent, 
+    SelectionListComponent, 
+    MeteoFormComponent, 
+    WindFormComponent, 
+    Atp45RunComponent, 
+    StabilityFormComponent, 
+    ReleaseLocationsFormComponent, 
+    ArchiveComponent,
+    AreaPopupComponent,
+  ],
   imports: [
     CommonModule,
     MatTooltipModule,
@@ -33,6 +45,9 @@ import { ArchiveComponent } from './archive/archive.component';
     TabComponent,
     FieldsetComponent,
     SharedModule,
+  ],
+  exports: [
+    AreaPopupComponent,
   ],
   providers: [
     Atp45ApiService
