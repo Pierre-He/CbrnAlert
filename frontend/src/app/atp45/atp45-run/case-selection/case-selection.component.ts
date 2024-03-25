@@ -25,6 +25,7 @@ export class CaseSelectionComponent implements OnInit {
 
   selectedCategories: Atp45Category[] = [];
   get filteredCategories() {
+    console.log(this.selectedCategories.filter(cat => cat.paramtype !== "windchoice" &&  cat.paramtype !== "meteo"))
     return this.selectedCategories.filter(cat => cat.paramtype !== "windchoice" &&  cat.paramtype !== "meteo")
   }
 
@@ -178,6 +179,17 @@ export class CaseSelectionComponent implements OnInit {
       this.formatTree(child)
     }
   }
+
+
+  //shows the categories on a string
+  formatSelectedCategoriesForDisplay(): string {
+    return this.selectedCategories.map(cat => cat.internalname).join(' - ');
+  }
+
+
+
+
+
   // nextChoiceIsWind() {
   //   this.currentChildren[0].children.length == 1
   // }

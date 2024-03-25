@@ -75,6 +75,18 @@ export class Atp45RunComponent implements OnInit {
   }
 
   onSubmit() {
+    //display messages of type, useful to implements formatted ATP45 Messages.
+    const formattedSelectedCases = this.selectedCases.map(category => category.internalname).join(' - ');
+    alert(`Selected categories: ${formattedSelectedCases}`);
+    
+    const hasContainerGroupD = this.selectedCases.some(category => category.id === 'containergroupd');
+
+    // If so, launch an alert
+    if (hasContainerGroupD) {
+      alert('A category with the ID "containergroupd" has been selected.');
+    }
+
+
     console.log(this.tabs)
     const locations = this.runForm.get('locations')!.value as GeoPoint[];
     let weatherInput;
@@ -111,5 +123,10 @@ export class Atp45RunComponent implements OnInit {
       this.store.dispatch(new MapPlotAction.Add(res, 'atp45'));
       this.notification.snackBar("ATP45 run successful. The result has been added to the map.")
     });
+
+    //trigger the AreaPopup.
+
+    this.atp45Service.sendData();
+    alert("this should have been after the service sendData")
   }
 }

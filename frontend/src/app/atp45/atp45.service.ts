@@ -2,6 +2,7 @@ import { Atp45ApiService } from 'src/app/core/api/services';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Atp45ShapeData } from './shape-data';
+import { HttpClient } from '@angular/common/http';
 
 import { formatDate } from '@angular/common';
 import { FeatureCollection } from 'geojson';
@@ -16,9 +17,14 @@ export class Atp45Service {
     availableForecastSubject = new BehaviorSubject<ForecastAvailableSteps | null>(null);
     availableForecast$ = this.availableForecastSubject.asObservable();
 
+    
+    private payloadSubject =  new BehaviorSubject<any>(null);
+
+
     constructor(
         private apiService: Atp45ApiService,
         private store: Store,
+        private http: HttpClient,
     ) { }
 
 
@@ -51,5 +57,33 @@ export class Atp45Service {
         this.store.dispatch(new ForecastStartAction.Update(res));
         this.availableForecastSubject.next(res)
       })
+    }
+
+    //to store and send the popup message on hazard area 
+    updatePayload(data: any): void {
+      console.log("Updating payload:", data);
+      this.payloadSubject.next(data);
+    }
+
+    get payload$() {
+      return this.payloadSubject.asObservable();
+    }
+
+
+    sendData(): void {
+      alert("into send data() of service!")
+      const payload = this.payloadSubject.value;
+      alert(payload)
+      if (!payload) {
+        console.log("No payload to send");
+        return;
+      }
+
+
+      this.http.post('http://localhost:8000/api/updateHazardZone', payload)
+        .subscribe({
+          next: (response) => console.log('Data sent successfully', response),
+          error: (error) => console.error('Error sending data', error)
+        });
     }
 }
