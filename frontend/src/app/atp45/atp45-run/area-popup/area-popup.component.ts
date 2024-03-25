@@ -13,14 +13,30 @@ export class AreaPopupComponent {
   // Example variables
   message: string = "Predefined message";
   alpha: string = "Value for alpha";
-  beta: string = "Value for beta";
+  delta: string = "Value for delta";
+  foxtrot: string = "foxtrot";
+  golf: string = "golf";
+  india: string = "india";
+  miker: string = "miker";
+  papaa: string = "papaa";
+  papax: string = "papax";
+  tango: string = "tango";
+  gentext: string = "gentext";
 
   // Function to send the data
   sendData(): void {
     const payload = {
       message: this.message,
       alpha: this.alpha,
-      beta: this.beta
+      delta: this.delta,
+      foxtrot: this.foxtrot,
+      golf: this.golf,
+      india: this.india,
+      miker: this.miker,
+      papaa: this.papaa,
+      papax: this.papax,
+      tango: this.tango,
+      gentext: this.gentext
     };
 
     this.http.post('http://localhost:8000/api/updateHazardZone', payload)
