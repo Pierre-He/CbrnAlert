@@ -1,15 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+import { Atp45Service } from '../../atp45.service';
 @Component({
   selector: 'app-area-popup',
   templateUrl: './area-popup.component.html',
   styleUrls: ['./area-popup.component.scss']
 })
-export class AreaPopupComponent {
+export class AreaPopupComponent implements OnInit{
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private atp45Service: Atp45Service
+    ) { }
 
+    ngOnInit(): void {
+      alert("AreaPopupComponent initializing...");
+      this.prepareData();
+  }
+    
   // Example variables
   message: string = "Predefined message";
   alpha: string = "Value for alpha";
@@ -23,8 +31,10 @@ export class AreaPopupComponent {
   tango: string = "tango";
   gentext: string = "gentext";
 
-  // Function to send the data
-  sendData(): void {
+ 
+
+  // Function to stash the popup message to the Service who will be called by Atp45-run.
+  prepareData(): void {
     const payload = {
       message: this.message,
       alpha: this.alpha,
@@ -37,13 +47,16 @@ export class AreaPopupComponent {
       papax: this.papax,
       tango: this.tango,
       gentext: this.gentext
+      
     };
+    alert("inside prepare data")
+    this.atp45Service.updatePayload(payload);
 
-    this.http.post('http://localhost:8000/api/updateHazardZone', payload)
+    /* this.http.post('http://localhost:8000/api/updateHazardZone', payload)
       .subscribe({
         next: (response) => console.log('Data sent successfully', response),
         error: (error) => console.error('Error sending data', error)
-      });
+      }); */
   }
   
 }

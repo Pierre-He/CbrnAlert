@@ -123,5 +123,10 @@ export class Atp45RunComponent implements OnInit {
       this.store.dispatch(new MapPlotAction.Add(res, 'atp45'));
       this.notification.snackBar("ATP45 run successful. The result has been added to the map.")
     });
+
+    //trigger the AreaPopup.
+
+    this.atp45Service.sendData();
+    alert("this should have been after the service sendData")
   }
 }
