@@ -11,6 +11,7 @@ import { MapPlotState } from 'src/app/core/state/map-plot.state';
 import { MapPlot } from 'src/app/core/models/map-plot';
 import { map, tap } from 'rxjs/operators';
 import { MapPlotsService } from 'src/app/core/services/map-plots.service';
+import { DualMarkerModeService } from 'src/app/core/services/dual-marker-mode.service';
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
@@ -70,12 +71,25 @@ export class LeafletMapComponent implements OnInit {
   //   marker([ 46.879966, 4 ])
   // ]);
 
+  //local variable to check that depends on the dual marker observable
+  dualMarkerModeEnabled: boolean = false;
+
   constructor(
     public mapService: MapService,
     public mapPlotsService: MapPlotsService,
     public store: Store,
+    private dualMarkerModeService : DualMarkerModeService,
    
   ) {
+
+    //subscribing to the dual marker mode's observable ($)
+    this.dualMarkerModeService.dualMarkerMode$.subscribe(enabled => {
+      this.dualMarkerModeEnabled = enabled;
+      if (enabled) {
+        console.log("Dual Marker Mode is enabled");
+      }
+    });
+
   }
 
   ngOnInit(): void { }
@@ -125,6 +139,10 @@ export class LeafletMapComponent implements OnInit {
         this.createPopup(newLayer,'Rectangle')
 
       } else if (e.shape == 'Marker') {
+        
+        //skip autofill & autodeletion when dualmarker is on
+        if (this.dualMarkerModeEnabled) return;
+
         // Change the current marker if exists, and create it if not
         const newLayer = e.layer as Marker
         const previousLayer = this.mapService.drawnMarker;

@@ -4,6 +4,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Atp45Category, Atp45DecisionTree } from 'src/app/core/api/models';
 import { tap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DualMarkerModeService } from 'src/app/core/services/dual-marker-mode.service'
 
 @Component({
   selector: 'app-case-selection',
@@ -32,12 +33,11 @@ export class CaseSelectionComponent implements OnInit {
 
   savedIndices: number[] = [];
 
-  //for dual marker snackbar
-  dualMarkerModeOn: boolean = false;
 
   constructor(
     private api: Atp45ApiService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dualMarkerModeService: DualMarkerModeService
     ) {}
 
   ngOnInit(): void {
@@ -57,7 +57,7 @@ export class CaseSelectionComponent implements OnInit {
 
     //check if container D, then toggle duo markers
     if (selectedChild.id === 'containergroupd') {
-      this.dualMarkerModeOn = true;
+      this.dualMarkerModeService.enableDualMarkerMode();
       this.snackBar.open('Dual Marker mode: ON', 'Close', { duration: 3000 });
     }
 
@@ -114,8 +114,8 @@ export class CaseSelectionComponent implements OnInit {
 
     // check if current choice is not container D anymore.
     const hasContainerGroupD = this.selectedCategories.some(cat => cat.id === 'containergroupd');
-    if (this.dualMarkerModeOn && !hasContainerGroupD) {
-        this.dualMarkerModeOn = false;
+    if (!hasContainerGroupD && this.dualMarkerModeService.isDualMarkerModeEnabled()) {
+      this.dualMarkerModeService.disableDualMarkerMode();
         this.snackBar.open('Dual Marker mode: OFF', 'Close', { duration: 3000 });
     }
 
