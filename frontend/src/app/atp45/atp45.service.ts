@@ -71,9 +71,9 @@ export class Atp45Service {
 
 
     sendData(): void {
-      alert("into send data() of service!")
+
       const payload = this.payloadSubject.value;
-      alert(payload)
+      
       if (!payload) {
         console.log("No payload to send");
         return;

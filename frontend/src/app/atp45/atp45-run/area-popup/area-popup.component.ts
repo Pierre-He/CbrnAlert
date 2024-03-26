@@ -14,7 +14,7 @@ export class AreaPopupComponent implements OnInit{
     ) { }
 
     ngOnInit(): void {
-      alert("AreaPopupComponent initializing...");
+
       this.prepareData();
   }
     
@@ -49,7 +49,6 @@ export class AreaPopupComponent implements OnInit{
       gentext: this.gentext
       
     };
-    alert("inside prepare data")
     this.atp45Service.updatePayload(payload);
 
     /* this.http.post('http://localhost:8000/api/updateHazardZone', payload)
