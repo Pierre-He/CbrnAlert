@@ -3,6 +3,7 @@ import { Atp45ApiService } from 'src/app/core/api/services';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Atp45Category, Atp45DecisionTree } from 'src/app/core/api/models';
 import { tap } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-case-selection',
@@ -31,7 +32,13 @@ export class CaseSelectionComponent implements OnInit {
 
   savedIndices: number[] = [];
 
-  constructor(private api: Atp45ApiService) {}
+  //for dual marker snackbar
+  
+
+  constructor(
+    private api: Atp45ApiService,
+    private snackBar: MatSnackBar
+    ) {}
 
   ngOnInit(): void {
     this.api.atp45TreeGet()
@@ -47,6 +54,11 @@ export class CaseSelectionComponent implements OnInit {
 
   saveAndChangeChildren(event: number) {
     const selectedChild = this.currentChildren[event];
+
+    //check if container D, then toggle duo markers
+    if (selectedChild.id === 'containergroupd') {
+      this.snackBar.open('Dual Marker mode: on', 'Close', { duration: 3000 });
+    }
 
     // Save the selected category
     this.selectedCategories.push(selectedChild);
@@ -98,6 +110,13 @@ export class CaseSelectionComponent implements OnInit {
   goToPreviousCategory() {
     this.selectedCategories.pop();
     this.savedIndices.pop();
+
+    // check if current choice is not container D anymore.
+    const hasContainerGroupD = this.selectedCategories.some(cat => cat.id === 'containergroupd');
+    if (!hasContainerGroupD) {
+        this.snackBar.open('Dual Marker mode: off', 'Close', { duration: 3000 });
+    }
+
     let previousTree = this.decisionTree;
     this.isLeaf = false;
 

@@ -21,6 +21,9 @@ import { FieldsetComponent } from 'src/app/shared/form/fieldset/fieldset.compone
 import { ArchiveComponent } from './archive/archive.component';
 import { AreaPopupComponent } from './area-popup/area-popup.component';
 
+import { AppComponent } from 'src/app/app.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 @NgModule({
   declarations: [
     CaseSelectionComponent, 
@@ -45,6 +48,7 @@ import { AreaPopupComponent } from './area-popup/area-popup.component';
     TabComponent,
     FieldsetComponent,
     SharedModule,
+    MatSnackBarModule
   ],
   exports: [
     AreaPopupComponent,
@@ -52,5 +56,6 @@ import { AreaPopupComponent } from './area-popup/area-popup.component';
   providers: [
     Atp45ApiService
 ],
+  bootstrap: [AppComponent]
 })
 export class Atp45RunModule {}
