@@ -33,7 +33,7 @@ export class CaseSelectionComponent implements OnInit {
   savedIndices: number[] = [];
 
   //for dual marker snackbar
-  
+  dualMarkerModeOn: boolean = false;
 
   constructor(
     private api: Atp45ApiService,
@@ -57,7 +57,8 @@ export class CaseSelectionComponent implements OnInit {
 
     //check if container D, then toggle duo markers
     if (selectedChild.id === 'containergroupd') {
-      this.snackBar.open('Dual Marker mode: on', 'Close', { duration: 3000 });
+      this.dualMarkerModeOn = true;
+      this.snackBar.open('Dual Marker mode: ON', 'Close', { duration: 3000 });
     }
 
     // Save the selected category
@@ -113,8 +114,9 @@ export class CaseSelectionComponent implements OnInit {
 
     // check if current choice is not container D anymore.
     const hasContainerGroupD = this.selectedCategories.some(cat => cat.id === 'containergroupd');
-    if (!hasContainerGroupD) {
-        this.snackBar.open('Dual Marker mode: off', 'Close', { duration: 3000 });
+    if (this.dualMarkerModeOn && !hasContainerGroupD) {
+        this.dualMarkerModeOn = false;
+        this.snackBar.open('Dual Marker mode: OFF', 'Close', { duration: 3000 });
     }
 
     let previousTree = this.decisionTree;
