@@ -2,7 +2,7 @@ import { Atp45ApiService } from 'src/app/core/api/services';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Atp45ShapeData } from './shape-data';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { formatDate } from '@angular/common';
 import { FeatureCollection } from 'geojson';
@@ -19,7 +19,7 @@ export class Atp45Service {
 
     
     private payloadSubject =  new BehaviorSubject<any>(null);
-
+    private parcel: any;
 
     constructor(
         private apiService: Atp45ApiService,
@@ -71,19 +71,42 @@ export class Atp45Service {
 
 
     sendData(): void {
-
       const payload = this.payloadSubject.value;
-      
       if (!payload) {
         console.log("No payload to send");
-        return;
+        //return;        
       }
-
-
       this.http.post('http://localhost:8000/api/updateHazardZone', payload)
         .subscribe({
           next: (response) => console.log('Data sent successfully', response),
           error: (error) => console.error('Error sending data', error)
         });
     }
+
+    updateParcel(data:any):void {
+      console.log("Service receiving simpler data...")
+      this.parcel = data;
+      console.log("Received : " + this.parcel)
+    }
+    sendDataSimpler():void {
+      console.log("Sending Simpler data to Julia...")
+      console.log(this.parcel)
+      this.http.post('http://localhost:8000/api/updateHazardZone', this.parcel)
+        .subscribe({
+          next: (response) => console.log('Data sent successfully', response),
+          error: (error) => console.error('Error sending data', error)
+        });
+    }
+
+    testEndpoint():void {
+      const testPayload = {testKey:'testValue'};
+      this.http.post('http://localhost:8000/api/testEndpoint', testPayload)
+        .subscribe({
+          next: (response) => console.log('Data sent successfully', response),
+          error: (error) => console.error('Error sending data', error)
+        });
+    }
+
+
+
 }

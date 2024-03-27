@@ -141,7 +141,7 @@ export class LeafletMapComponent implements OnInit {
       } else if (e.shape == 'Marker') {
         
         //skip autofill & autodeletion when dualmarker is on
-        if (this.dualMarkerModeEnabled) return;
+        //if (this.dualMarkerModeEnabled) return;
 
         // Change the current marker if exists, and create it if not
         const newLayer = e.layer as Marker

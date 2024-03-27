@@ -36,9 +36,11 @@ global DEBUG_REQUEST = 0
 # end
 
 route("/api/login", AuthenticationController.login, method = POST)
-route("/api/updateHazardZone", method=POST) do
+
+
+#= route("/api/updateHazardZone", method=POST) do
     payload = Genie.Requests.jsonpayload()
-    
+    println("payload : ", payload)
     try
         updateHazardZone(payload) 
         return Genie.Response.json(Dict("status" => "success", "message" => "Hazard zone updated successfully"))
@@ -46,6 +48,27 @@ route("/api/updateHazardZone", method=POST) do
         return Genie.Response.json(Dict("status" => "error", "message" => "Failed to update hazard zone", "error" => string(e)), status=400)
     end
 end
+route("/api/updateHazardZone", method=OPTIONS) do
+    # Just respond with headers, no actual content needed
+    return Genie.Response.json(Dict())
+  end
+
+route("/api/testEndpoint", method = POST) do
+    payload = Genie.Requests.jsonpayload()
+    println("Received payload: ", payload)
+    return Genie.Response.json(Dict("status" => "success", "received" => payload))
+end =#
+
+#= route("/api/atp45/run", method=POST) do
+    payload = Genie.Requests.jsonpayload()
+    atp_plot_number = payload["plot_number"]
+
+    # Use plot_number in your properties or wherever needed
+    message = "ATP-45 Plot $atp_plot_number"
+
+    # Proceed with your logic
+    return Genie.Response.json(Dict("type" => message))
+end =#
 
 api_routes = Dict(
     "/forecast/available" => (f=Atp45Controller.available_steps, keyargs=(method=GET,)),
