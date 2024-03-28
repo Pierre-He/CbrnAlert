@@ -17,9 +17,12 @@ export class Atp45Service {
     availableForecastSubject = new BehaviorSubject<ForecastAvailableSteps | null>(null);
     availableForecast$ = this.availableForecastSubject.asObservable();
 
+    //for the messages of map plot list items
+    private selectedCaseIdsSource = new BehaviorSubject<string>('');
+    selectedCaseIds$ = this.selectedCaseIdsSource.asObservable();
     
-    private payloadSubject =  new BehaviorSubject<any>(null);
-    private parcel: any;
+    
+
 
     constructor(
         private apiService: Atp45ApiService,
@@ -59,54 +62,50 @@ export class Atp45Service {
       })
     }
 
-    //to store and send the popup message on hazard area 
-    updatePayload(data: any): void {
-      console.log("Updating payload:", data);
-      this.payloadSubject.next(data);
+    setSelectedCaseIds(ids: string) {
+      this.selectedCaseIdsSource.next(ids);
+      this.processSelectedIds(ids);
     }
 
-    get payload$() {
-      return this.payloadSubject.asObservable();
-    }
-
-
-    sendData(): void {
-      const payload = this.payloadSubject.value;
-      if (!payload) {
-        console.log("No payload to send");
-        //return;        
+    private processSelectedIds(ids: string) {
+      const idMap = this.createIdMap(ids);
+      this.handleCommonLogic(idMap);
+      if (idMap.get('detailed') || false) {
+          this.handleDetailedLogic(idMap);
       }
-      this.http.post('http://localhost:8000/api/updateHazardZone', payload)
-        .subscribe({
-          next: (response) => console.log('Data sent successfully', response),
-          error: (error) => console.error('Error sending data', error)
-        });
     }
 
-    updateParcel(data:any):void {
-      console.log("Service receiving simpler data...")
-      this.parcel = data;
-      console.log("Received : " + this.parcel)
-    }
-    sendDataSimpler():void {
-      console.log("Sending Simpler data to Julia...")
-      console.log(this.parcel)
-      this.http.post('http://localhost:8000/api/updateHazardZone', this.parcel)
-        .subscribe({
-          next: (response) => console.log('Data sent successfully', response),
-          error: (error) => console.error('Error sending data', error)
-        });
+    private createIdMap(ids: string): Map<string, boolean> {
+      const idArray = ids.split('-');
+      const idMap = new Map<string, boolean>();
+      idArray.forEach(id => idMap.set(id, true));
+      return idMap;
     }
 
-    testEndpoint():void {
-      const testPayload = {testKey:'testValue'};
-      this.http.post('http://localhost:8000/api/testEndpoint', testPayload)
-        .subscribe({
-          next: (response) => console.log('Data sent successfully', response),
-          error: (error) => console.error('Error sending data', error)
-        });
+    //check for wind and attack type, note that the two attacks below aren't implemented yet
+    handleCommonLogic(idMap:Map<string,boolean>) {
+      let isChemical = idMap.get("chem")|| false;
+      let isBiological = idMap.get("bio")|| false;
+      let isRadioactive = idMap.get("radio")|| false;
+      let isNuclear = idMap.get("nuke")|| false;
+      
+      console.log(`Is Chemical: ${isChemical}`);
+      console.log(`Is Biological: ${isBiological}`);
+      console.log(`Is Radioactive: ${isRadioactive}`);
+      console.log(`Is Nuclear: ${isNuclear}`);
     }
+    
+    handleDetailedLogic(idMap:Map<string,boolean>) {
+      let isNonPersistent = idMap.get("typeA") || false;
+      let isPersistent = idMap.get("typeB")|| false;
+      //let persistenceType = idMap.get('typeB') ? 'B' : 'A';
 
-
+      const containerGroupKey = Array.from(idMap.keys()).find(key => key.startsWith('containergroup'));
+      
+      console.log(`Is Non-Persistent: ${isNonPersistent}`);
+      console.log(`Is Persistent: ${isPersistent}`);
+      console.log(`Container Group Key: ${containerGroupKey}`);
+    }
+    
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Atp45Service } from '../../atp45.service';
 @Component({
@@ -14,10 +14,10 @@ export class AreaPopupComponent implements OnInit{
     ) { }
 
     ngOnInit(): void {
-      console.log("AreaPopup Preparing data...")
-      this.prepareData();
-  }
     
+    }
+    
+
   // Example variables
   message: string = "Predefined message";
   alpha: string = "Value for alpha";
@@ -31,7 +31,8 @@ export class AreaPopupComponent implements OnInit{
   tango: string = "tango";
   gentext: string = "gentext";
 
- 
+ //ALFA Incident Serial Number 
+//BRAVO Location of Observer and Direction of incident
 
   // Function to stash the popup message to the Service who will be called by Atp45-run.
   prepareData(): void {
@@ -49,13 +50,5 @@ export class AreaPopupComponent implements OnInit{
       gentext: this.gentext
       
     };
-    //this.atp45Service.updatePayload(payload);
-    //this.atp45Service.updateParcel(payload);
-    /* this.http.post('http://localhost:8000/api/updateHazardZone', payload)
-      .subscribe({
-        next: (response) => console.log('Data sent successfully', response),
-        error: (error) => console.error('Error sending data', error)
-      }); */
   }
-  
 }

@@ -27,6 +27,8 @@ import './core/config/custom-methods';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 
 import { SnackbarModule } from './shared/ui/snackbar/snackbar.module';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
     declarations: [
@@ -50,8 +52,9 @@ import { SnackbarModule } from './shared/ui/snackbar/snackbar.module';
         FlexpartModule,
         LoginModule,
         FontAwesomeModule,
-
-        SnackbarModule
+        SnackbarModule,
+        MatSnackBarModule,
+        MatDialogModule
 
     ],
     providers: [

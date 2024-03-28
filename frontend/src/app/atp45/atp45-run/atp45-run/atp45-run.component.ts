@@ -78,17 +78,24 @@ export class Atp45RunComponent implements OnInit {
 
 
   onSubmit() {
+    /*
     //display messages of type, useful to implements formatted ATP45 Messages.
     const formattedSelectedCases = this.selectedCases.map(category => category.internalname).join(' - ');
     alert(`Selected categories: ${formattedSelectedCases}`);
-    
     const hasContainerGroupD = this.selectedCases.some(category => category.id === 'containergroupd');
-
     // If so, launch an alert
     if (hasContainerGroupD) {
       alert('A category with the ID "containergroupd" has been selected.');
-    }
+    }*/
 
+/* 
+    //format the plot id for a message on map plot list item
+    const formattedSelectedCaseIds = this.selectedCases.map(category => category.id).join(' - ');
+    this.atp45Service.setSelectedCaseIds(formattedSelectedCaseIds); */
+    
+    const ids = this.selectedCases.map(selectedCase => selectedCase.id).join('-');
+    this.atp45Service.setSelectedCaseIds(ids);
+    
 
     console.log(this.tabs)
     const locations = this.runForm.get('locations')!.value as GeoPoint[];
@@ -128,12 +135,5 @@ export class Atp45RunComponent implements OnInit {
     });
 
 
-    //trigger the AreaPopup.
-    //this.atp45Service.sendData()
-    //this.atp45Service.sendDataSimpler();
-    //alert("this should have been after the service sendData")
-
-    //this.atp45Service.testEndpoint();
-    //alert("TestEndpoint launched")
     }
 }

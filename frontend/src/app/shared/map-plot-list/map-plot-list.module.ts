@@ -8,13 +8,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRippleModule } from '@angular/material/core';
-
+import { PlotDetailsDialogComponent } from './plot-details-dialog/plot-details-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
   declarations: [
     MapPlotListItemComponent,
     MapPlotListComponent,
+    PlotDetailsDialogComponent
   ],
   imports: [
     CommonModule,
