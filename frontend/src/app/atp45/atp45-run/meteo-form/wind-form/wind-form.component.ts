@@ -1,6 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { FormControl, FormRecord, Validators } from '@angular/forms';
 import { FormGroup } from '@ngneat/reactive-forms';
+//import { EventEmitter } from 'stream';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-wind-form',
@@ -12,11 +14,22 @@ export class WindFormComponent {
   // @Input() parentForm: FormGroup<MeteoForm>;
   @Input() parentForm: FormRecord;
 
+  //to manage the wind values for the atp 45 message
+  @Output() windDataChange = new EventEmitter<{speed: number, azimuth: number}>();
+
   windForm = new FormGroup({
     // windForm = new FormGroup<WindForm>({
-    speed: new FormControl(8, [Validators.required]),
-    azimuth: new FormControl(45, [Validators.required]),
+    speed: new FormControl(0, [Validators.required]),
+    azimuth: new FormControl(0, [Validators.required]),
   });
+
+  get speedValue(): number {
+    return this.windForm.get('speed')?.value ?? 0;
+  }
+
+  get azimuthValue(): number {
+    return this.windForm.get('azimuth')?.value ?? 0;
+  }
 
 
   constructor() {}
@@ -24,8 +37,11 @@ export class WindFormComponent {
   ngOnInit(): void {
     this.parentForm.addControl('wind', this.windForm);
 
+    this.windForm.valueChanges.subscribe(() => {
+      this.emitWindData();
+    });
     
-    // Subscribe to value changes and convert negatives to 0
+    //check for negatives input and transform them to 0
     this.windForm.get('speed').valueChanges.subscribe(value => {
       if (value !== null && value  !== undefined && value < 0) {
         this.windForm.get('speed').setValue(0);
@@ -38,7 +54,13 @@ export class WindFormComponent {
       }
     });
 
+  }
 
+  emitWindData() {
+    this.windDataChange.emit({
+      speed: this.speedValue,
+      azimuth: this.azimuthValue,
+    });
   }
 
   isValid(): boolean {

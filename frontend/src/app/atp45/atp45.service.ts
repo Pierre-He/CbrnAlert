@@ -21,7 +21,9 @@ export class Atp45Service {
     private selectedCaseIdsSource = new BehaviorSubject<string>('');
     selectedCaseIds$ = this.selectedCaseIdsSource.asObservable();
     
-    
+    //variable for winds
+    private windData = new BehaviorSubject<{ speed: number, azimuth: number }>({ speed: 0, azimuth: 0 });
+
 
 
     constructor(
@@ -105,7 +107,19 @@ export class Atp45Service {
       console.log(`Is Non-Persistent: ${isNonPersistent}`);
       console.log(`Is Persistent: ${isPersistent}`);
       console.log(`Container Group Key: ${containerGroupKey}`);
+
+      console.log(this.generateMessage())
     }
-    
+
+    //method to collect the wind data
+    setWindData(windData: { speed: number, azimuth: number }): void {
+      this.windData.next(windData);
+    }
+
+    generateMessage(): string {
+      // Example message generation logic that uses wind data
+      const wind = this.windData.getValue();
+      return `Wind Speed: ${wind.speed} km/h, Azimuth: ${wind.azimuth} degrees.`;
+    }
 
 }

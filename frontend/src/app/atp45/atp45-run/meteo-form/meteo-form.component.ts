@@ -1,5 +1,6 @@
 import { FormGroup, FormRecord } from '@angular/forms';
 import { Component, Input } from '@angular/core';
+import { Atp45Service } from '../../atp45.service';
 
 
 @Component({
@@ -13,6 +14,8 @@ export class MeteoFormComponent {
   @Input() withStability: boolean = true;
   @Input() parentForm: FormRecord;
 
+  constructor(private atp45Service: Atp45Service){}
+
   meteoForm = new FormRecord({})
   // meteoForm = new FormGroup<MeteoForm>({})
   ngOnInit(): void {
@@ -25,5 +28,10 @@ export class MeteoFormComponent {
 
   ngOnDestroy(): void {
     this.parentForm.removeControl('weather');
+  }
+
+  handleWindDataChange(windData: { speed: number, azimuth: number }) {
+    // Handle the wind data as needed, e.g., storing it in the service
+    this.atp45Service.setWindData(windData);
   }
 }
