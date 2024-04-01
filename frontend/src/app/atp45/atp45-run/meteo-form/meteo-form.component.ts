@@ -1,7 +1,7 @@
 import { FormGroup, FormRecord } from '@angular/forms';
 import { Component, Input } from '@angular/core';
 import { Atp45Service } from '../../atp45.service';
-
+import { Atp45StabilityClasses } from 'src/app/core/api/models';
 
 @Component({
   selector: 'app-meteo-form',
@@ -29,9 +29,14 @@ export class MeteoFormComponent {
   ngOnDestroy(): void {
     this.parentForm.removeControl('weather');
   }
-
+  
+  //storing wind data for the service
   handleWindDataChange(windData: { speed: number, azimuth: number }) {
-    // Handle the wind data as needed, e.g., storing it in the service
     this.atp45Service.setWindData(windData);
+  }
+
+  //storing the stability type for the service
+  handleStabilityClassChange(stabilityClass: Atp45StabilityClasses) {
+    this.atp45Service.setStabilityClass(stabilityClass);
   }
 }

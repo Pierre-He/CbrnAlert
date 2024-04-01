@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Atp45ShapeData } from './shape-data';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Atp45StabilityClasses } from 'src/app/core/api/models';
 
 import { formatDate } from '@angular/common';
 import { FeatureCollection } from 'geojson';
@@ -24,6 +25,8 @@ export class Atp45Service {
     //variable for winds
     private windData = new BehaviorSubject<{ speed: number, azimuth: number }>({ speed: 0, azimuth: 0 });
 
+    //variable for stability (for case TYPE A/E,F)
+    private stabilityClass = new BehaviorSubject<Atp45StabilityClasses>(Atp45StabilityClasses.Stable);
 
 
     constructor(
@@ -74,6 +77,7 @@ export class Atp45Service {
       this.handleCommonLogic(idMap);
       if (idMap.get('detailed') || false) {
           this.handleDetailedLogic(idMap);
+          console.log(this.determineATP45Case())
       }
     }
 
@@ -108,7 +112,9 @@ export class Atp45Service {
       console.log(`Is Persistent: ${isPersistent}`);
       console.log(`Container Group Key: ${containerGroupKey}`);
 
-      console.log(this.generateMessage())
+      console.log(this.generateWind())
+      console.log(this.generateStability())
+      
     }
 
     //method to collect the wind data
@@ -116,10 +122,77 @@ export class Atp45Service {
       this.windData.next(windData);
     }
 
-    generateMessage(): string {
-      // Example message generation logic that uses wind data
+    setStabilityClass(stabilityClass: Atp45StabilityClasses): void {
+      this.stabilityClass.next(stabilityClass);
+    }
+
+    //tester for wind
+    generateWind(): string {
       const wind = this.windData.getValue();
       return `Wind Speed: ${wind.speed} km/h, Azimuth: ${wind.azimuth} degrees.`;
     }
+
+    generateStability():string {
+      const stabilityType = this.stabilityClass.getValue();
+      return `Stability Type : ${stabilityType}`;
+    }
+
+
+    private determineATP45Case(): string {
+      //determines air, ground, or unknown attack nature and Weapon Container type
+      const isNonPersistent = this.selectedCaseIdsSource.getValue().includes('typeA');
+      const isPersistent = this.selectedCaseIdsSource.getValue().includes('typeB');
+      const containerGroupKey = this.selectedCaseIdsSource.getValue().split('-').find(id => id.startsWith('containergroup'));
+      
+      //the wind and stability value. Stability will be used for Type A case 2.
+      const wind = this.windData.getValue();
+      const stabilityType = this.stabilityClass.getValue();
+      
+      let caseType = '';
+      
+      //determining the case 
+      if (isNonPersistent && wind.speed <= 10) {
+        caseType = 'Type A Case 1';
+      } else if (isNonPersistent && wind.speed > 10) {
+        caseType = 'Type A Case 2';
+        //stability for Type A case 2
+        switch (stabilityType) {
+          case Atp45StabilityClasses.Unstable:
+            caseType += ' - Unstable';
+            break;
+          case Atp45StabilityClasses.Neutral:
+            caseType += ' - Neutral';
+            break;
+          case Atp45StabilityClasses.Stable:
+            caseType += ' - Stable';
+            break;
+        }
+
+      } else if (isPersistent) {
+        switch (containerGroupKey) {
+          case 'containergroupb':
+            caseType = wind.speed <= 10 ? 'Type B Case 1' : 'Type B Case 2';
+            break;
+          case 'containergroupc':
+            caseType = wind.speed <= 10 ? 'Type B Case 3' : 'Type B Case 4';
+            break;
+          case 'containergroupd':
+            caseType = wind.speed <= 10 ? 'Type B Case 5' : 'Type B Case 6';
+            break;
+        }
+      } else {
+        //if it's neither persistent nor non-persistent, it's unobserved.
+        caseType = 'Type C Case 1';
+      }
+    
+      
+
+      return caseType;
+    
+    }    
+
+
+
+
 
 }

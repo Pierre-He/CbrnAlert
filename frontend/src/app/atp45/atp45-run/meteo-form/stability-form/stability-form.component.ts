@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, FormRecord } from '@angular/forms';
 import { Atp45StabilityClasses } from 'src/app/core/api/models';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-stability-form',
@@ -10,6 +11,7 @@ import { Atp45StabilityClasses } from 'src/app/core/api/models';
 export class StabilityFormComponent {
 
   @Input() parentForm: FormRecord;
+  @Output() stabilityClassChange = new EventEmitter<Atp45StabilityClasses>();
 
 
   stabilityClasses = Object.values(Atp45StabilityClasses)
@@ -21,6 +23,10 @@ export class StabilityFormComponent {
 
   ngOnInit(): void {
     this.parentForm.addControl('stability', this.stabilityForm);
+
+    this.stabilityForm.get('stabilityClass')!.valueChanges.subscribe(value => {
+      this.stabilityClassChange.emit(value);
+    });
   }
 
   isValid(): boolean {
