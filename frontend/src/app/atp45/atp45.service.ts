@@ -114,7 +114,7 @@ export class Atp45Service {
 
       console.log(this.generateWind())
       console.log(this.generateStability())
-      
+      console.log(getSimulationTime())
     }
 
     //method to collect the wind data
@@ -184,15 +184,20 @@ export class Atp45Service {
         //if it's neither persistent nor non-persistent, it's unobserved.
         caseType = 'Type C Case 1';
       }
-    
-      
-
       return caseType;
-    
     }    
-
-
-
-
-
 }
+    //to generate the date formatted like 021033ZAPR2024, DDhhmmZMMMYYYY 'Day Hour Minutes UTC+0(zulu) Months Year'
+    function getSimulationTime(): string {
+      const date = new Date();
+      const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+      
+      const day = date.getUTCDate().toString().padStart(2, '0');
+      const hour = date.getUTCHours().toString().padStart(2, '0');
+      const minute = date.getUTCMinutes().toString().padStart(2, '0');
+      const month = months[date.getUTCMonth()];
+      const year = date.getUTCFullYear().toString();
+
+      return `${day}${hour}${minute}Z${month}${year}`;
+    }
+
