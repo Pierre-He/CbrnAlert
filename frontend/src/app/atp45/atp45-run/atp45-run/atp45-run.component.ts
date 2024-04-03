@@ -15,6 +15,9 @@ import { TabsComponent } from 'src/app/shared/tabs/tabs.component';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { HttpClient } from '@angular/common/http';
 
+
+import * as mgrs from 'mgrs';
+
 @Component({
   selector: 'app-atp45-run',
   templateUrl: './atp45-run.component.html',
@@ -99,6 +102,13 @@ export class Atp45RunComponent implements OnInit {
 
     console.log(this.tabs)
     const locations = this.runForm.get('locations')!.value as GeoPoint[];
+    console.log(locations);
+
+    const firstLocation = locations[0];
+    const mgrsLocation = convertToMgrs(firstLocation.lat, firstLocation.lon);
+    console.log(mgrsLocation);
+
+    
     let weatherInput;
     const activeTab = this.activeTabId as Atp45RunTypes;
     if (activeTab == Atp45RunTypes.Manually) {
@@ -136,4 +146,10 @@ export class Atp45RunComponent implements OnInit {
 
 
     }
+
+}
+
+function convertToMgrs(latitude:number, longitude: number):string{
+  const coordinates: [number,number] = [longitude, latitude];
+  return mgrs.forward(coordinates);
 }

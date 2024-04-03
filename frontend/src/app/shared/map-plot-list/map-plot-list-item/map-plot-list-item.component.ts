@@ -1,11 +1,15 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MapPlot } from 'src/app/core/models/map-plot';
 
+import mgrs from 'mgrs';
+
+
 @Component({
     selector: 'app-map-plot-list-item',
     templateUrl: './map-plot-list-item.component.html',
     styleUrls: ['./map-plot-list-item.component.scss']
 })
+
 export class MapPlotListItemComponent implements OnInit {
 
     @Input() plots: MapPlot[] | null;
@@ -32,3 +36,9 @@ export class MapPlotListItemComponent implements OnInit {
     }
 
 }
+
+/*
+function convertToMgrs(latitude: number, longitude:number) {
+    return mgrs.forward([longitude,latitude]);
+}
+*/

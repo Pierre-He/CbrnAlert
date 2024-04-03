@@ -18,6 +18,9 @@ export interface MapPlot {
   visible: boolean,
   isActive: boolean,
   metadata?: Object
+
+  //for MGRS Conversion. Optional info to avoid backward compatibility
+  mgrs?: string;
 }
 
 export class MapPlot implements MapPlot {
@@ -41,3 +44,4 @@ export class MapPlot implements MapPlot {
 
   }
 }
+
