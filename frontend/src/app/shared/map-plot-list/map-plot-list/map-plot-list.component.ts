@@ -7,6 +7,7 @@ import { MapPlotAction } from 'src/app/core/state/map-plot.state';
 
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PlotDetailsDialogComponent } from '../plot-details-dialog/plot-details-dialog.component';
+import { Atp45Service } from 'src/app/atp45/atp45.service';
 
 
 interface SimulationData{
@@ -32,6 +33,7 @@ export class MapPlotListComponent {
     constructor(
         private store: Store,
         public dialog: MatDialog,
+        public atp45Service: Atp45Service,
     ) { }
 
     toggleVisibility(plot: MapPlot) {
@@ -41,10 +43,8 @@ export class MapPlotListComponent {
 
     setActive(plotId: number) {
         this.store.dispatch(new MapPlotAction.SetActive(plotId));
-        this.openDialog(plotId + 1)
+        this.openDialog(plotId + 1, this.atp45Service.mgrsLocation.getValue())
 
-        //const simulationData = this.getSimulationDataForPlot(plotId);
-        //this.openDialog(plotId, simulationData);
     }
 
     delete(plotId: number) {
@@ -63,7 +63,8 @@ export class MapPlotListComponent {
         };
       }
 
-    openDialog(plotId:number): void {
+    openDialog(plotId:number, mgrsLocation: string): void {
+        console.log("inside open dialog : " + mgrsLocation)
         this.dialog.open(PlotDetailsDialogComponent, {
           width: '300px',
           data: { 
@@ -72,7 +73,7 @@ export class MapPlotListComponent {
             attackType: 'CHEM',
             alpha: 'alpha',
             delta: '',
-            foxtrot: 'foxtrot',
+            foxtrot: mgrsLocation,
             golf: 'golf',
             india: 'indiaaaaa',
             miker: 'miler',
@@ -84,8 +85,6 @@ export class MapPlotListComponent {
             gentext: 'gentext'
             }
         });
-
-
-
     }
 }
+

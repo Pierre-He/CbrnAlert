@@ -36,9 +36,3 @@ export class MapPlotListItemComponent implements OnInit {
     }
 
 }
-
-/*
-function convertToMgrs(latitude: number, longitude:number) {
-    return mgrs.forward([longitude,latitude]);
-}
-*/

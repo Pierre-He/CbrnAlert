@@ -1,5 +1,5 @@
 import { Atp45ApiService } from 'src/app/core/api/services';
-import { Injectable } from '@angular/core';
+import { Injectable, numberAttribute } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Atp45ShapeData } from './shape-data';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -28,6 +28,9 @@ export class Atp45Service {
     //variable for stability (for case TYPE A/E,F)
     private stabilityClass = new BehaviorSubject<Atp45StabilityClasses>(Atp45StabilityClasses.Stable);
 
+    //observable for mgrs location
+    mgrsLocation = new BehaviorSubject<string>('');
+    mgrsLocation$ = this.mgrsLocation.asObservable();
 
     constructor(
         private apiService: Atp45ApiService,
@@ -114,7 +117,7 @@ export class Atp45Service {
 
       console.log(this.generateWind())
       console.log(this.generateStability())
-      console.log(getSimulationTime())
+      console.log(this.getSimulationTime())
     }
 
     //method to collect the wind data
@@ -138,7 +141,7 @@ export class Atp45Service {
     }
 
 
-    private determineATP45Case(): string {
+    determineATP45Case(): string {
       //determines air, ground, or unknown attack nature and Weapon Container type
       const isNonPersistent = this.selectedCaseIdsSource.getValue().includes('typeA');
       const isPersistent = this.selectedCaseIdsSource.getValue().includes('typeB');
@@ -186,9 +189,15 @@ export class Atp45Service {
       }
       return caseType;
     }    
-}
+
+    
+    storeMgrsLocation(mgrsLocation: string) {
+      this.mgrsLocation.next(mgrsLocation);
+      console.log("from service, mgrs: " + mgrsLocation);
+    }
+
     //to generate the date formatted like 021033ZAPR2024, DDhhmmZMMMYYYY 'Day Hour Minutes UTC+0(zulu) Months Year'
-    function getSimulationTime(): string {
+    getSimulationTime(): string {
       const date = new Date();
       const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
       
@@ -200,4 +209,13 @@ export class Atp45Service {
 
       return `${day}${hour}${minute}Z${month}${year}`;
     }
+
+    getAttackType():string {
+      return 'hello';
+    }
+
+
+
+}
+    
 

@@ -37,6 +37,7 @@ export class Atp45RunComponent implements OnInit {
   leadtimes$: Observable<string[]>;
 
   runForm = new FormGroup({});
+  
 
   constructor(
     private api: Atp45ApiService,
@@ -49,6 +50,9 @@ export class Atp45RunComponent implements OnInit {
       this.updateCanSubmit();
     });
     this.atp45Service.getAvailableSteps();
+
+
+    
   }
 
   ngOnInit(): void {
@@ -79,7 +83,20 @@ export class Atp45RunComponent implements OnInit {
     return this.tabs.activeTab.id;
   }
 
+  submitSimulation() {
+    const mgrsLocation = this.atp45Service.mgrsLocation
+    const attackType = this.atp45Service.getAttackType(); // Hypothetical method
+    const caseType = this.atp45Service.determineATP45Case(); // Method that determines the case
+    const delta = this.atp45Service.getSimulationTime();
+    //const papaa = this.getPapaaBasedOnCase(caseType);
 
+    //this.openDialog(mgrsLocation, attackType, delta, papaa, caseType);
+    //this.openDialog(mgrsLocation, "CHEM", delta, "papaa placeholder", caseType);
+  }
+
+
+
+  
   onSubmit() {
     /*
     //display messages of type, useful to implements formatted ATP45 Messages.
@@ -107,7 +124,7 @@ export class Atp45RunComponent implements OnInit {
     const firstLocation = locations[0];
     const mgrsLocation = convertToMgrs(firstLocation.lat, firstLocation.lon);
     console.log(mgrsLocation);
-
+    this.atp45Service.storeMgrsLocation(mgrsLocation);
     
     let weatherInput;
     const activeTab = this.activeTabId as Atp45RunTypes;
@@ -146,6 +163,9 @@ export class Atp45RunComponent implements OnInit {
 
 
     }
+
+
+
 
 }
 
