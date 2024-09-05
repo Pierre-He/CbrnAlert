@@ -1,7 +1,3 @@
-<div class="tabs">
-  <button (click)="setUnit('kg')" [class.active]="units === 'kg'"> Mass (kg)</button>
-  <button (click)="setUnit('bq')" [class.active]="units === 'bq'"> Activity (kBq / m²)</button>
-</div>
 
 
 <!-- <ng-template *ngIf="ticks !== undefined"> -->
@@ -9,7 +5,7 @@
   class="fixed w-32 bottom-9 right-14 bg-white rounded-lg border-4 p-2 flex flex-row justify-between"
   style="z-index: 1000"
 >
-<div class="tabs">
+<div class="tabs mb-2">
   <button (click)="setUnit('kg')" [class.active]="units === 'kg'"> Mass (kg)</button>
   <button (click)="setUnit('bq')" [class.active]="units === 'bq'"> Activity (kBq / m²)</button>
 </div>

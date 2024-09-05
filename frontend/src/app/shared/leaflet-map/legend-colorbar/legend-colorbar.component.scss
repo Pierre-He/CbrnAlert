@@ -8,7 +8,7 @@
 
 .tabs {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .tabs button {
@@ -16,6 +16,7 @@
   border: none;
   padding: 5px;
   cursor: pointer;
+  margin-right: 5px;
 }
 
 .tabs button.active {
@@ -26,4 +27,23 @@
 .unit {
   transform: rotate(-90deg);
   transform-origin: center;
+}
+
+.flex {
+  margin-top: 10px; /* Ensure some spacing between the buttons and the scale */
+}
+
+.unit {
+  transform: rotate(-90deg);
+  transform-origin: center;
+}
+
+.fixed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mb-2 {
+  margin-bottom: 10px; /* Adjust spacing to ensure buttons don't overlap the scale */
 }
