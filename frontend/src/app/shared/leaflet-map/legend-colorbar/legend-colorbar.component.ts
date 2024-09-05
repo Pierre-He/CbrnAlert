@@ -10,16 +10,35 @@ import { map } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LegendColorbarComponent implements OnInit {
+  //@Input() colorbar: any; 
+  @Input() colors: string[] = [];
+  @Input() formatedTicks: string[] = [];
+  @Input() units: string = 'kg';
 
-  formatedTicks: string[];
-  colors?: string[];
-
-  units = 'ng/m³';
-  @Input() set colorbar(value: ColorbarData) {
-    this.formatedTicks = value.ticks.map(i => this.formatTick(i));
-    this.colors = value.colors;
-    // this.units = value.units;
+  get unitLabel() {
+    return this.units === 'kg' ? 'kg' : 'kBq / m²';
   }
+
+  setUnit(unit: string) {
+    this.units = unit;
+    // Adjust the ticks and colors based on the selected unit
+    if (unit === 'kg') {
+      // Example: adjusting values for kg
+      this.formatedTicks = this.formatedTicks.map(t => this.convertToKg(t));
+    } else if (unit === 'kBq/m²') {
+      // Example: adjusting values for Bq
+      this.formatedTicks = this.formatedTicks.map(t => this.convertToBq(t));
+    }
+  }
+
+  @Input() set colorbar(value: ColorbarData) {
+    if (value) {
+      this.formatedTicks = value.ticks.map(i => this.formatTick(i));
+      this.colors = value.colors || [];
+      //this.units = value.units || 'kg'; // Default to 'kg' if units are not provided
+    }
+  }
+  
 
   // ticksLabels: string[];
   // colors: string[];
@@ -37,5 +56,15 @@ export class LegendColorbarComponent implements OnInit {
 
   formatTick(tick:number) {
     return tick.toExponential(2)
+  }
+
+  convertToKg(tick: string): string {
+    // Convert the tick to kg (custom logic based on your needs)
+    return tick; // Placeholder logic
+  }
+
+  convertToBq(tick: string): string {
+    // Convert the tick to kBq/m² (custom logic based on your needs)
+    return tick; // Placeholder logic
   }
 }

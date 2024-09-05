@@ -5,3 +5,25 @@
 .offset2 {
   transform: translateY(-11px);
 }
+
+.tabs {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tabs button {
+  background: none;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.tabs button.active {
+  font-weight: bold;
+  border-bottom: 2px solid black;
+}
+
+.unit {
+  transform: rotate(-90deg);
+  transform-origin: center;
+}
