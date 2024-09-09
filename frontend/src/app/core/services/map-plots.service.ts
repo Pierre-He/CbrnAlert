@@ -55,67 +55,56 @@ export class MapPlotsService {
 
   fillPlotGeoJSON(plotData: Atp45Result | GeoJsonSliceResponse, type: PlotType) {
     let newPlot = new MapPlot(type);
-
-    newPlot.metadata = plotData.metadata
+    newPlot.metadata = plotData.metadata;
     newPlot.geojson = plotData.collection as FeatureCollection;
     return newPlot;
   }
 
   async fillPlotTiff(plotData: Blob, type: PlotType) {
-    const arrayBuffer = await plotData.arrayBuffer()
+    const arrayBuffer = await plotData.arrayBuffer();
     const geoRaster = await parseGeoraster(arrayBuffer);
     let newPlot = new MapPlot(type);
-    console.log(geoRaster);
     newPlot.data = geoRaster;
-    newPlot.metadata = this._colorbarFromGeoRaster(geoRaster)
-    return newPlot
+    newPlot.metadata = this._colorbarFromGeoRaster(geoRaster);
+    return newPlot;
   }
 
   addTiff(geoRaster: any) {
-    console.log(geoRaster)
+    const activity = 3.215; // kBq in 1 ng of caesium-137
+    const scale = this._colorScale_depo(); // or _colorScale_mr based on logic
+    const ticks = this._generateTicks(); // Generate ticks based on geoRaster
 
-    // inspired from https://github.com/GeoTIFF/georaster-layer-for-leaflet-example/blob/master/examples/color-scale.html
-    const min = geoRaster.mins[0];
-    const max = geoRaster.maxs[0];
-    const range = geoRaster.ranges[0];
-    let scale = this._colorScale()
     const imageryLayer = new GeoRasterLayer({
       georaster: geoRaster,
       pixelValuesToColorFn: pixelValues => {
-        let pixelValue = pixelValues[0]; // there's just one band in this raster
-
-        if (pixelValue === 0) return "";
-        // console.log("nir:", nir);
-        let scaledPixelValue = (pixelValue - min) / range;
-        let color = scale(scaledPixelValue).hex();
-
-        return color;
+        let pixelValue = pixelValues[0] * activity; // Assuming single-band raster
+        if (pixelValue === 0) return '';
+        return scale(pixelValue).hex();
       },
-      resolution: 64,
+      resolution: 256,
       opacity: 0.8
     });
 
-    return imageryLayer as typeof GeoRasterLayer;
+    return imageryLayer;
   }
 
-  _colorScale() {
-    return chroma.scale("Viridis");
+  _colorScale_mr() {
+    return chroma.scale('Spectral');
   }
 
-  _colorbarFromGeoRaster(geoRaster: any, length = 10): ColorbarData {
-    const min: number = geoRaster.mins[0];
-    const max: number = geoRaster.maxs[0];
-    const range = geoRaster.ranges[0];
-    let scale = this._colorScale().domain([min, max]);
-    let ticks: number[] = [];
-    let colors: string[] = [];
-    let step = range / (length - 1);
-    for (let i = 0; i < length; i++) {
-      let tick = min + (step * i)
-      ticks.push(tick);
-      colors.push(scale(tick).hex())
-    }
-    colors.shift()
+  _colorScale_depo() {
+    return chroma.scale(['#800000', '#F0E68C']); // Adjust based on needs
+  }
+
+  _colorbarFromGeoRaster(geoRaster: any): ColorbarData {
+    const activity = 3.215; // kBq in 1 ng of caesium-137
+    const min = geoRaster.mins[0] * activity;
+    const max = geoRaster.maxs[0] * activity;
+    const ticks = [0, 2, 4, 10, 20, 40, 100, 185, 555, 1480]; // Based on deposition in kBq/m^2
+    const scale = this._colorScale_depo().domain(ticks.slice().reverse());
+
+    const colors = ticks.map(tick => scale(tick).hex());
+
     return {
       colors,
       ticks
@@ -133,32 +122,20 @@ export class MapPlotsService {
     });
   }
 
-  flexpartPlotToLayer(collection: FeatureCollection) {
-    // let options: L.GeoJSONOptions = {
-    //     pointToLayer: function (feature: any, latlng: L.LatLng) {
-    //         if (feature.properties.type === "releasePoint") {
-    //             return circleMarker(latlng, REL_LOC_MARKER_OPTIONS);
-    //         }
-    //         return circleMarker(latlng, POINT_MARKER_OPTIONS);
-    //     },
-    //     style: (feature: any) => {
-    //         let options: L.PathOptions = {
-    //             stroke: false,
-    //             fillOpacity: 0.4,
-    //         }
-    //         options = feature.properties ? {...options, color: feature.properties.color } : options
-    //         return options;
-    //     },
-    // };
+  _generateTicks(): number[] {
+    // Logic to generate ticks based on geoRaster data
+    return [0, 2, 4, 10, 20, 40, 100, 185, 555, 1480];
+  }
 
+  flexpartPlotToLayer(collection: FeatureCollection) {
     let layers = geoJSON(undefined, {
       pmIgnore: true
     });
-
+    let featureGroup = new FeatureGroup();
     layers.addData(collection as FeatureCollection);
-    return layers;
+    featureGroup.addLayer(layers);
+    return featureGroup;
   }
-
   atp45PlotToLayer(collection: FeatureCollection) {
     let options: L.GeoJSONOptions = {
       pointToLayer: function (feature: any, latlng: L.LatLng) {
